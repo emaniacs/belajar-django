@@ -14,4 +14,7 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
      url(r'^ambo/', include(admin.site.urls)),
+     
+     # /pulsa/*
+     url(r'^pulsa/', include('pulsa.urls'))
 )
