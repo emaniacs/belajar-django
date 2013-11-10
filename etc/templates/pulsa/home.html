@@ -1,7 +1,8 @@
 {% extends 'default.html' %}
 
 {% block content %}
-    {% for pulsa in puls %}
+    {% for pulsa in all_pulsa %}
+        <b>{{pulsa.item_type.real_name}}</b><br/>
         <b>{{pulsa.name}}</b><br/>
         <b>{{pulsa.status}}</b><br/>
         <b>{{pulsa.user}}</b><br/>
