@@ -9,3 +9,8 @@ class Pulsa(models.Model):
     status = models.BooleanField()
     user = models.ForeignKey(User)
     
+    def __unicode__(self):
+        return self.name
+    
+    class Meta:
+        verbose_name_plural = 'Daftar Pulsa'
