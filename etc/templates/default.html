@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <title>
+            {% if title %}
+                {{title}}
+            {% else %}
+                {{'Django'}}
+            {% endif %}
+        </title>
+        <link href="" rel="stylesheet" />
+    </head>
+    
+    <body>
+        {% block content %}
+        
+        {% endblock %}
+    </body>
+</html>
