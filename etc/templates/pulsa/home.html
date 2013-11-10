@@ -1,0 +1,11 @@
+{% extends 'default.html' %}
+
+{% block content %}
+    {% for pulsa in puls %}
+        <b>{{pulsa.name}}</b><br/>
+        <b>{{pulsa.status}}</b><br/>
+        <b>{{pulsa.user}}</b><br/>
+        <b>{{pulsa.add_date}}</b><br/>
+        <b>{{pulsa.mod_date}}</b><br/>
+    {% endfor %}
+{% endblock %}
