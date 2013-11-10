@@ -2,12 +2,13 @@
 from django.shortcuts import render_to_response
 from products.models import Items, ItemType
 
-TYPE = ItemType(name='pulsa')
+NAME = 'pulsa'
+TYPE = ItemType.objects.get(name=NAME)
 
 def home(request):
     view = 'pulsa/home.html'
     args = {}
-    args.update({'all_pulsa': Items.objects.get(name=TYPE)})
+    args.update({'all_pulsa': Items.objects.get(item_type=TYPE)})
     args.update({'title': 'HomePage'})
     
     return render_to_response(view, args)
