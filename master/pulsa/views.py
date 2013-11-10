@@ -1,11 +1,13 @@
 # Create your views here.
 from django.shortcuts import render_to_response
-from pulsa.models import Pulsa
+from products.models import Items, ItemType
+
+TYPE = ItemType(name='pulsa')
 
 def home(request):
     view = 'pulsa/home.html'
     args = {}
-    args.update({'puls': Pulsa.objects.all()})
+    args.update({'all_pulsa': Items.objects.get(name=TYPE)})
     args.update({'title': 'HomePage'})
     
     return render_to_response(view, args)
