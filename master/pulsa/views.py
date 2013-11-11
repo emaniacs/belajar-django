@@ -14,10 +14,11 @@ def home(request):
     return render_to_response(view, args)
 
 def detail(request, pulsa_id=None):
-    view = 'pulsa/home.html'
+    view = 'pulsa/detail.html'
     args = {}
     
-    obj = get_object_or_404(Items, id=pulsa_id)
+    pulsa = get_object_or_404(Items, id=pulsa_id)
+    args.update({'pulsa':pulsa})
     
     return render_to_response(view, args)
     
