@@ -23,6 +23,7 @@ class Items(models.Model):
     sell_price = models.IntegerField()
     purchase_price = models.IntegerField()
     stock = models.IntegerField(default=0)
+    img = models.CharField(max_length=64,default='/static/img/empty.png')
     
     def __unicode__(self):
         return '(%s) - %s' % (self.item_type.real_name, self.name)
