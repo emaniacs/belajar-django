@@ -1,5 +1,5 @@
 # Create your views here.
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from products.models import Items, ItemType
 
 NAME = 'pulsa'
@@ -13,9 +13,11 @@ def home(request):
     
     return render_to_response(view, args)
 
-def detail(request):
+def detail(request, pulsa_id=None):
     view = 'pulsa/home.html'
     args = {}
+    
+    obj = get_object_or_404(Items, id=pulsa_id)
     
     return render_to_response(view, args)
     

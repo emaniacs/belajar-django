@@ -18,3 +18,5 @@ urlpatterns = patterns('',
      # /pulsa/*
      url(r'^pulsa/', include('pulsa.urls'))
 )
+
+handler404 = 'master.views.error404'
