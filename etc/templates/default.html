@@ -15,7 +15,12 @@
             <script src="{% static 'js/html5shiv.js'%}"></script>
         <![endif]-->
 
+        
         <link rel="shortcut icon" href="{% static 'img/favicon.png'%}"/>
+        
+        <script type="text/javascript" src="{% static 'js/jquery.js'%}"></script>
+        <script type="text/javascript" src="{% static 'js/main.js'%}"></script>
+        
         {% block style %}{% endblock %}
     </head>
     
@@ -81,5 +86,11 @@
             </footer>
 
         </div> <!-- /container -->
+        
+        <script type="text/javascript">
+            $(function() {
+                $('.harga').hargaIndonesia();
+            })
+        </script>
     </body>
 </html>
