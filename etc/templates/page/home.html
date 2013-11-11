@@ -1,1 +1,83 @@
-<h1>Home</h1>
+{% extends 'default.html' %}
+
+{% block style %}
+<style>
+    .item-detail{
+        margin-left: 11px;
+        position:relative;
+    }
+    .item-detail b{
+        
+    }
+    .item-detail hr{
+        margin-top:0;
+    }
+    .harga {
+        margin-top:5px;
+        left:1px;
+        margin-bottom:1px;
+    }
+    .harga span{
+        font-size:23px;
+        font-weight: bold;
+    }
+    .items div {
+        min-height:173px;
+    }
+    .item-detail .saved, p.harga {
+        position:absolute;
+        bottom:1px
+    }
+    .saved {
+        right: 1px;
+    }
+    
+    .item-title {
+        position: relative;
+    }
+    .items {
+        padding-bottom:3px;
+        margin-bottom: 5px
+    }
+    .items:hover {
+        border-bottom: 7px solid #aaa;
+    }
+    .products a {
+        font-weight: bold;
+        font-size: 23px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <div class="products">
+        <a href="/pulsa/">
+            Daftar pulsa ({{total_pulsa}})</h3> 
+        </a>
+    </div>
+    <hr/>
+    <div class="row-fluid">
+        {% for pulsa in all_pulsa %}
+        <div class="span3">
+            <div class="row-fluid items">
+                <div class="span6">
+                    <div class="item-title">
+                        <a href="/pulsa/detail/{{pulsa.id}}">
+                            <img src="{{pulsa.img}}" class="img-polaroid"/>
+                        </a>
+                        <p class="harga">RP <span>{{pulsa.purchase_price}}</span></p>
+                    </div>
+                </div>
+                <div class="span6">
+                    <div class="item-detail">
+                        <b>{{pulsa.name}}</b>
+                        <hr/>
+                        <p>Jumlah stok <b>{{pulsa.stock}}</b></p>
+                        <button class="btn saved">Add</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}
