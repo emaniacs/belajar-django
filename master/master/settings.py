@@ -115,7 +115,7 @@ ROOT_URLCONF = 'master.urls'
 WSGI_APPLICATION = 'master.wsgi.application'
 
 TEMPLATE_DIRS = (
-    '/home/ardi/git/myGit/terminal-cell/etc/templates/'
+    THIS_DIR + '/../../etc/templates/'
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
