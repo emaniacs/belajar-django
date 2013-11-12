@@ -30,3 +30,20 @@ class Items(models.Model):
         
     class Meta:
         verbose_name_plural = 'Daftar Item'
+
+
+class Penjualan(models.Model):
+    name = models.CharField(max_length=64)
+    purchase_date = models.DateTimeField('purchase date')
+    price = models.IntegerField()
+    value = models.IntegerField()
+    user = models.ForeignKey(User)
+    total_price = models.IntegerField()
+    
+class Log(models.Model):
+    name = models.CharField(max_length=64)
+    add_date = models.DateTimeField('add date')
+    user = models.ForeignKey(User)
+    data = models.TextField()
+    
+    

@@ -16,7 +16,10 @@ urlpatterns = patterns('',
      url(r'^ambo/', include(admin.site.urls)),
      
      # /pulsa/*
-     url(r'^pulsa/', include('pulsa.urls'))
+     url(r'^pulsa/', include('pulsa.urls')),
+     
+     # /pulsa/*
+     url(r'^stats/', include('stats.urls')),
 )
 
 handler404 = 'master.views.error404'
