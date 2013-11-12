@@ -49,6 +49,25 @@
 </style>
 {% endblock %}
 
+{% block script %}
+<script type="text/javascript">
+    $.ajaxSetup({
+        dataType: 'json',
+        url:'/beli/add',
+        method: 'post'
+    });
+    
+    $(function() {
+        $('.saved').on('click', function(e) {
+            var self = $(this);
+            $.ajax({data:{id:self.data('id')}})
+                .done(function(resp){})
+                .fail(function(jqxhr, err, message){})
+        });
+    })
+</script>
+{% endblock %}
+
 {% block content %}
     <div class="products">
         <a href="/pulsa/">
@@ -73,7 +92,7 @@
                         <b>{{pulsa.name}}</b>
                         <hr/>
                         <p>Jumlah stok <b>{{pulsa.stock}}</b></p>
-                        <button class="btn saved">Add</button>
+                        <button class="btn saved" data-id="{{pulsa.id}}">Add</button>
                     </div>
                 </div>
             </div>
