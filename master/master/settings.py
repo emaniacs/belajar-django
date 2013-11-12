@@ -28,7 +28,7 @@ DATABASES = {
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = [
     '127.0.0.1',
-    '127.0.0.1:8000',
+    '127.0.0.1:5575',
 ]
 
 # Local time zone for this installation. Choices can be found here:
@@ -56,7 +56,7 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = '/home/ardi/git/myGit/terminal-cell/etc/media/'
+MEDIA_ROOT = THIS_DIR + '/../../etc/media/'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -75,7 +75,7 @@ STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    '/home/ardi/git/myGit/terminal-cell/etc/static/',
+    THIS_DIR + '/../../etc/static/',
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
