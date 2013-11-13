@@ -24,11 +24,11 @@
     .items div {
         min-height:173px;
     }
-    .item-detail .saved, p.harga {
+    .item-detail .btns, p.harga {
         position:absolute;
         bottom:1px
     }
-    .saved {
+    .btns {
         right: 1px;
     }
     
@@ -84,15 +84,18 @@
                         <a href="/pulsa/detail/{{pulsa.id}}">
                             <img src="{{pulsa.img}}" class="img-polaroid"/>
                         </a>
-                        <p class="harga">RP <span>{{pulsa.purchase_price}}</span></p>
+                        <p class="harga">RP <span>{{pulsa.harga_jual}}</span></p>
                     </div>
                 </div>
                 <div class="span6">
                     <div class="item-detail">
-                        <b>{{pulsa.name}}</b>
+                        <b>{{pulsa.nama}}</b>
                         <hr/>
-                        <p>Jumlah stok <b>{{pulsa.stock}}</b></p>
-                        <button class="btn saved" data-id="{{pulsa.id}}">Add</button>
+                        <p>Jumlah stok <b>{{pulsa.stok}}</b></p>
+                        <span class="btns btn-group">
+                            <a class="btn btn-primary beli" href="/pulsa/beli/{{pulsa.id}}">Beli</a>
+                            <a class="btn saved" data-id="{{pulsa.id}}">Add</a>
+                        </span>
                     </div>
                 </div>
             </div>
