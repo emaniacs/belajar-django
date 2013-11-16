@@ -6,6 +6,7 @@ def home(request):
     pulsa = Items.objects.filter(tipe_item__nama='pulsa').order_by('-waktu_modif')[:4]
     args['all_pulsa'] = pulsa
     args['total_pulsa'] = len(Items.objects.filter(tipe_item__nama='pulsa'))
+    args['user'] = request.user
     
     return render_to_response('page/home.html', args)
 

@@ -37,6 +37,9 @@ class Pelanggan(models.Model):
     nama = models.CharField(max_length=64)
     alamat = models.TextField(default='')
     no_hape = models.CharField(max_length=16)
+    
+    class Meta:
+        verbose_name_plural = 'Daftar Pelanggan'
 
 class Penjualan(models.Model):
     nama = models.CharField(max_length=64)
@@ -55,4 +58,18 @@ class Log(models.Model):
     user = models.ForeignKey(User)
     data = models.TextField()
     
+class Menu(models.Model):
+    nama = models.CharField(max_length=32)
+    group = models.IntegerField()
+    link = models.CharField(max_length=32)
+    status = models.IntegerField(default=1)
     
+    class Meta:
+        verbose_name_plural = 'Daftar Menu'
+        
+    def __unicode__(self):
+        return self.nama
+    
+    def delete(self, *args, **kwargs):
+        self.status = 0
+        super(Menu, self).save(*args, **kwargs)
