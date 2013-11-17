@@ -6,7 +6,8 @@ from django.core.context_processors import csrf
 NAME = 'pulsa'
 def home(request):
     view = 'pulsa/home.html'
-    args = {}
+    args = _get_args()
+    
     args.update({'all_pulsa': Items.objects.filter(tipe_item__nama=NAME)})
     args.update({'title': 'HomePage'})
     
@@ -14,7 +15,7 @@ def home(request):
 
 def detail(request, pulsa_id=None):
     view = 'pulsa/detail.html'
-    args = {}
+    args = _get_args()
     
     pulsa = get_object_or_404(Items, id=pulsa_id)
     args.update({'pulsa':pulsa})
@@ -24,6 +25,8 @@ def detail(request, pulsa_id=None):
 def beli(request, pulsa_id=None):
     view = 'pulsa/beli_form.html'
     args = {}
+    args = _get_args()
+    
     pulsa = get_object_or_404(Items, id=pulsa_id)    
     
     if request.method == 'POST':
@@ -33,3 +36,8 @@ def beli(request, pulsa_id=None):
         args.update(csrf(request))
     
     return render_to_response(view, args)
+
+def _get_args():
+    args = {}
+    args.update({'MENU': NAME})
+    return args
