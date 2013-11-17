@@ -1,5 +1,7 @@
 {% extends 'default.html' %}
 
+{% load my_helper %}
+
 {% block style %}
 <style>
     .item-detail{
@@ -46,6 +48,12 @@
         font-weight: bold;
         font-size: 23px;
     }
+    .pulsa {
+        border-right: 1px solid #aaa;
+    }
+    .pulsa:last-child{
+        border-right:none;
+    }
 </style>
 {% endblock %}
 
@@ -69,37 +77,43 @@
 {% endblock %}
 
 {% block content %}
-    <div class="products">
-        <a href="/pulsa/">
-            Daftar pulsa ({{total_pulsa}})</h3> 
-        </a>
-    </div>
-    <hr/>
-    <div class="row-fluid">
-        {% for pulsa in all_pulsa %}
-        <div class="span3">
-            <div class="row-fluid items">
-                <div class="span6">
-                    <div class="item-title">
-                        <a href="/pulsa/detail/{{pulsa.id}}">
-                            <img src="{{pulsa.img}}" class="img-polaroid"/>
-                        </a>
-                        <p class="harga">RP <span>{{pulsa.harga_jual}}</span></p>
+    <div class="twelve columns panel">
+        <div class="row">
+            <div class="twelve columns">
+                <a href="/pulsa">
+                    <h2>Daftar pulsa ({{total_pulsa}})</h2>
+                </a>
+            </div>
+            <hr/>
+            <div class="twelve columns">
+                <div class="row">
+                    {% for pulsa in all_pulsa %}
+                    <div class="three columns pulsa">
+                        <div class="row">
+                            <div class="six columns">
+                                <img src="{{pulsa.img}}" class="img"/>
+                            </div>
+                            <div class="six columns">
+                                <div class="row">
+                                    <p><b>{{pulsa.nama}}</b></p>
+                                    <p>Jumlah Stock <b>{{pulsa.stok}}</b></p>
+                                </div>
+                                <div class="row">
+                                    <ul class="button-group">
+                                        <li>
+                                            <a href="/pulsa/beli/{{pulsa.id}}" class="button small">Beli</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)" class="button small pulsa-add">Add</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="span6">
-                    <div class="item-detail">
-                        <b>{{pulsa.nama}}</b>
-                        <hr/>
-                        <p>Jumlah stok <b>{{pulsa.stok}}</b></p>
-                        <span class="btns btn-group">
-                            <a class="btn btn-primary beli" href="/pulsa/beli/{{pulsa.id}}">Beli</a>
-                            <a class="btn saved" data-id="{{pulsa.id}}">Add</a>
-                        </span>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
-        {% endfor %}
     </div>
 {% endblock %}
