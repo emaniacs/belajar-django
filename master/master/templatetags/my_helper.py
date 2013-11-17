@@ -24,7 +24,7 @@ def get_item_by_type(tipe, skip=4):
 @register.filter(name='get_total_item')
 def get_total_item(tipe=''):
     if not tipe:
-        length = len(items = Items.objects.all())
+        length = len(Items.objects.all())
     else:
         try:
             length  = len(Items.objects.filter(tipe_item__nama=tipe))
