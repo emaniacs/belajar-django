@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import patterns, include, url, handler404
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -15,13 +15,12 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
      url(r'^ambo/', include(admin.site.urls)),
      
-     # /pulsa/*
-     url(r'^pulsa/', include('pulsa.urls')),
+     # /produk/*
+     url(r'^produk/', include('products.urls')),
      
-     # /pulsa/*
+     # /stats/*
      url(r'^stats/', include('stats.urls')),
      
-     url(r'^beli/', include('beli.urls'))
 )
 
 handler404 = 'master.views.error404'
