@@ -135,7 +135,6 @@ INSTALLED_APPS = (
     'master',
     'south',
 
-    'pulsa',
     'products',
 )
 
