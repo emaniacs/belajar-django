@@ -38,6 +38,9 @@ class Pelanggan(models.Model):
     alamat = models.TextField(default='')
     no_hape = models.CharField(max_length=16, default='')
     
+    def __unicode__(self):
+        return self.nama
+        
     class Meta:
         verbose_name_plural = 'Daftar Pelanggan'
 
@@ -50,7 +53,13 @@ class Penjualan(models.Model):
     harga_total = models.IntegerField()
     pelanggan = models.ForeignKey(Pelanggan)
     kode = models.CharField(max_length=32)
-    dll = models.CharField(max_length=32)
+    dll = models.CharField(max_length=32, default='')
+    
+    def __unicode__(self):
+        return 'Penjualan %s (%d) %s' % (self.item.nama, self.jumlah, self.waktu_beli)
+        
+    class Meta:
+        verbose_name_plural = 'Daftar Penjualan'
     
 class Log(models.Model):
     nama = models.CharField(max_length=64)
