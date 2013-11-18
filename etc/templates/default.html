@@ -159,11 +159,16 @@
             }
             
             function ItemCtrl(item) {
-                var self=this,
+                var inputOk = true,
+                    self=this,
                     formBeli,
                     init = function() {
                         formBeli = $('#form-beli-template').html()
-                    };
+                    },
+                    ajaxAh = function(url, data) {
+                        return $.ajax({url: url, data: data});
+                    }
+                ;
                     
                 self.showBeli = function(e) {
                     var data = $(this).parent().data(),
@@ -176,10 +181,7 @@
                         id = that.data('id'),
                         data = {id:id, type:'add'},
                         afterShow = function() {
-                            $.ajax({
-                                url: '/produk/add/',
-                                data: data
-                            })
+                            ajaxAh('/produk/add/', data)
                             .done(function(response){
                                 if(response.status) {
                                     Modal.title('Proses berhasil.');
@@ -198,11 +200,11 @@
                 
                 self.calculate = function(value, harga) {
                     var totalHarga = $('input[name=total_harga]'),
-                        total = parseFloat(value),
-                        disable = (isNaN(total) || total < 1)
-                        ;
+                        total = parseFloat(value)
+                    ;
+                    inputOk = !(isNaN(total) || total < 1);
                     
-                    if (disable) {
+                    if (!inputOk) {
                         totalHarga.val(0);
                         Modal.footer('Masukkan angka besar dari 1.');
                     }
@@ -211,10 +213,26 @@
                         var total = parseInt(value) * harga;
                         totalHarga.val(total);
                     }
-                    Modal.modal().find('button').attr('disabled', disable);
+                    Modal.modal().find('button').attr('disabled', !inputOk);
                 };
                 
                 self.doBeli = function(form) {
+                    var form = $(form);
+                    if (! inputOk) {
+                        Modal.footer('Input salah, check kembali.');
+                    }
+                    else {
+                        var data, url = '/produk/beli/';
+                        form.find('input').each(function(index, obj) {
+                            obj.removeAttribute('disabled');
+                        });
+                        data = form.serialize();
+                        LOG(data);
+                        ajaxAh(url, data)
+                            .done(function(response) {
+                                LOG(response);
+                            });
+                    }
                     return false;
                 }
                 
