@@ -71,28 +71,47 @@
 {% endblock %}
 
 {% block script %}
+<div id="form-beli" style="display:none">
+
+</div>
 <script type="text/javascript">
-    $(function() {
-        $('.pulsa-beli').on('click', function(e) {
-            Modal.show('', '<b>Loading..</b>').find('.close-reveal-modal').hide();
+    var Pulsa = {
+        showBeli: function() {
+            var formBeli = $('#form-beli');
+            
+        },
+        doBeli: function() {
+            
+        },
+        doAdd: function(e) {
             var self = $(this),
                 id = self.data('id'),
-                data = {id:id,type:'beli'}
+                data = {id:id, type:'add'},
+                afterShow = function() {
+                    $.ajax({
+                        url: '/produk/add/',
+                        data: data
+                    })
+                    .done(function(response){
+                        if(response.status) {
+                            Modal.title('Proses berhasil.');
+                            Basket.increase();
+                        }
+                        else {
+                            Modal.title('Proses gagal.');
+                        }
+                    })
+                }
             ;
             
-            $.ajax({
-                url: '/produk/beli/' + id +'/',
-                data: data
-            })
-            .done(function(response) {
-                LOG(response);
-                Modal.modal().find('.body').html(response);
-            })
-            
-        })
-        $('.pulsa-add').on('click', function(e) {
-            Modal.show('', '<b>Loading..</b>').find('.close-reveal-modal').hide();
-        })
+            Modal.show('Loading..', 'Item sedang ditambahkan ke keranjang belanja.', {opened:afterShow});
+            Modal.hideClose();
+        }
+    }
+    
+    $(function() {
+        $('.pulsa-beli').on('click', Pulsa.showBeli)
+        $('.pulsa-add').on('click', Pulsa.doAdd)
     })
 </script>
 {% endblock %}
