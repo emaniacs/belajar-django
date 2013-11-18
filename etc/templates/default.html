@@ -12,7 +12,7 @@
         </title>
         <link href="{% static 'css/foundation.min.css' %}" rel="stylesheet" />
         <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet" />
-        <link href="{% static 'css/font-awesome-ie7.min.css' %}" rel="stylesheet" />
+        <link href="{% static 'css/font-awesome-ie7.css' %}" rel="stylesheet" />
         <link href="{% static 'css/style.css' %}" rel="stylesheet" />
         <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -23,6 +23,8 @@
         <link rel="shortcut icon" href="{% static 'img/favicon.png'%}"/>
         
         <script type="text/javascript" src="{% static 'js/jquery.js'%}"></script>
+        <script type="text/javascript" src="{% static 'js/foundation.min.js'%}"></script>
+        <script type="text/javascript" src="{% static 'js/jquery.foundation.reveal.js'%}"></script>
         <script type="text/javascript" src="{% static 'js/main.js'%}"></script>
         
         {% block style %}{% endblock %}
@@ -73,9 +75,69 @@
         
         </div>
         
+        <div id="myModal" class="reveal-modal">
+            <h2 class="title">Awesome. I have it</h2>
+            <div class="body">
+                <p class="lead">Your couch. It is mine.</p>
+                <p>Iam a cool parapgraph that lives inside of an even cooler modal. Wins</p>
+            </div>
+            
+            <a class="close-reveal-modal">&#215;</a>
+        </div>
+        
         <script type="text/javascript">
+            function LOG() {
+                console.log(arguments);
+            }
+            
+            function getCsrfToken() {
+                var csrfToken = '',
+                    csrf = /csrftoken=([^;]+)/.exec(document.cookie);
+                if (csrf.length == 2) {
+                    csrfToken = csrf[1];
+                }
+                return csrfToken;
+            }
+            
+            var Modal = {
+                modal: function() {
+                    return $('#myModal');
+                },
+                show: function(title, body, opt) {
+                    var opts =  $.extend({
+                        closeOnBackgroundClick: false
+                    }, opt);
+                    
+                    return Modal.modal().find('.title').html(title)
+                        .end().find('.body').html(body)
+                        .end().reveal(opts)
+                    ;
+                },
+                hide: function () {
+                    return Modal.modal().find('.close-reveal-modal').trigger('click');
+                }
+            };
+                    
+            
+            $.ajaxSetup({
+                beforeSend: function(xhr, settings) {
+                    xhr.setRequestHeader("X-CSRFToken", getCsrfToken());
+                },
+                dataType: 'json',
+                method: 'post',
+                always: function() {
+                    setTimeout(function() {
+                        Modal.hide();
+                    }, 1000);
+                },
+                error: function(jqxhr, error, message) {
+                    LOG(jqxhr, error, message);
+                    alert(message);
+                }
+            });
+            
             $(function() {
-                $('.harga span').hargaIndonesia();
+                $('.harga .h').hargaIndonesia();
             })
         </script>
         {% block script %}{% endblock %}

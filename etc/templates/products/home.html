@@ -18,8 +18,16 @@
         margin-top:5px;
         left:1px;
         margin-bottom:1px;
+        position: relative;
     }
-    .harga span{
+    .harga span.rp {
+        position: absolute;
+        top: -11px;
+        font-size: 11px;
+        left: 4px;
+        font-weight: bold; 
+    }
+    .harga span.h{
         font-size:23px;
         font-weight: bold;
     }
@@ -48,30 +56,43 @@
         font-weight: bold;
         font-size: 23px;
     }
-    .pulsa {
-        border-right: 1px solid #aaa;
+    
+    .item:hover {
+        //background-color: #ddd;
+        border-bottom: 3px solid #aaa;
     }
-    .pulsa:last-child{
-        border-right:none;
+    .item {
+        min-height: 201px;
+    }
+    .item .detail-atas {
+        min-height:151px;
     }
 </style>
 {% endblock %}
 
 {% block script %}
 <script type="text/javascript">
-    $.ajaxSetup({
-        dataType: 'json',
-        url:'/beli/add',
-        method: 'post'
-    });
-    
     $(function() {
-        $('.saved').on('click', function(e) {
-            var self = $(this);
-            $.ajax({data:{id:self.data('id')}})
-                .done(function(resp){})
-                .fail(function(jqxhr, err, message){})
-        });
+        $('.pulsa-beli').on('click', function(e) {
+            Modal.show('', '<b>Loading..</b>').find('.close-reveal-modal').hide();
+            var self = $(this),
+                id = self.data('id'),
+                data = {id:id,type:'beli'}
+            ;
+            
+            $.ajax({
+                url: '/produk/beli/' + id +'/',
+                data: data
+            })
+            .done(function(response) {
+                LOG(response);
+                Modal.modal().find('.body').html(response);
+            })
+            
+        })
+        $('.pulsa-add').on('click', function(e) {
+            Modal.show('', '<b>Loading..</b>').find('.close-reveal-modal').hide();
+        })
     })
 </script>
 {% endblock %}
@@ -89,27 +110,28 @@
             <div class="twelve columns">
                 <div class="row">
                     {% for item in tipe.nama|get_item_by_type:4 %}
-                    <div class="three columns pulsa">
-                        <div class="row">
-                            <div class="six columns">
+                    <div class="three columns item">
+                        <div class="row detail-atas">
+                            <div class="six columns image">
                                 <a href="/produk/by/{{tipe.nama}}/{{item.id}}">
                                     <img src="{{item.img}}" class="img"/>
                                 </a>
                             </div>
+                            <div class="six columns detail">
+                                <p><h5>{{item.nama}}</h5></p>
+                                <p>Stock <b>{{item.stok}}</b></p>
+                            </div>
+                        </div>
+                        
+                        <div class="row detail-bawah">
+                            <div class="six columns harga">
+                                <span class="rp">Rp</span>
+                                <span class="h">{{item.harga_jual}}</span>
+                            </div>
                             <div class="six columns">
                                 <div class="row">
-                                    <p><b>{{item.nama}}</b></p>
-                                    <p>Jumlah Stock <b>{{item.stok}}</b></p>
-                                </div>
-                                <div class="row">
-                                    <ul class="button-group">
-                                        <li>
-                                            <a href="/produk/beli/{{item.id}}" class="button small">Beli</a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0)" class="button small pulsa-add">Add</a>
-                                        </li>
-                                    </ul>
+                                    <span data-id="{{item.id}}" class="button small five pulsa-beli">Beli</span>
+                                    <span data-id="{{item.id}}" class="button five small pulsa-add">Add</span>
                                 </div>
                             </div>
                         </div>
