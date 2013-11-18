@@ -4,6 +4,9 @@ urlpatterns = patterns('',
     url(r'^$', 'products.views.home'),
     
     url(r'^beli/$', 'products.views.beli'),
+    url(r'^add/$', 'products.views.add'),
+    url(r'^checkout/$', 'products.views.checkout'),
+    url(r'^checkouts/$', 'products.views._tmp'),
     
     url(r'^by/(?P<item_type>\w+)/$', 'products.views.by_type'),
     

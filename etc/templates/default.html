@@ -178,8 +178,8 @@
                 };
                 self.doAdd = function (e) {
                     var that = $(this),
-                        id = that.data('id'),
-                        data = {id:id, type:'add'},
+                        id = that.parent().data('id'),
+                        data = {id:id, type:'add', jumlah:1},
                         afterShow = function() {
                             ajaxAh('/produk/add/', data)
                             .done(function(response){

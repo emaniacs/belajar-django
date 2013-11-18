@@ -96,6 +96,53 @@ def by_type_detail(request, item_type, item_id, item_name=None):
     
     return render_to_response(view, args)
 
+def _tmp(request):
+    data = request.session.get('data_checkout')
+    return HttpResponse(json_dumps(data), content_type='application/json')
+
+def add(request):
+    item_id = _p(request, 'id', False)
+    jumlah = _p(request, 'jumlah', False)
+    data = {}
+    if request.method == 'POST' and request.is_ajax():
+        if item_id and jumlah:
+            try:
+                item = Items.objects.get(id=item_id)
+                data_checkout = request.session.get('data_checkout', {})
+                
+                if data_checkout.has_key(item_id):
+                    tmp = data_checkout[item_id]
+                    jumlah = str(int(tmp) + int(jumlah))
+                    data_checkout[item_id] = jumlah
+                else:
+                    data_checkout.update({item.id: jumlah})
+                
+                request.session['data_checkout'] = data_checkout
+                data.update({
+                    'status': True,
+                    'message': 'Ok',
+                    'data': {item_id:jumlah}
+                })
+            except Items.DoesNotExist:
+                data.update({
+                    'status' : False,
+                    'message': 'Unknown error (%s ' % str(e)
+                })
+        else:
+            data.update({
+                'status' : False,
+                'message' : 'Invalid data post'
+            })
+        
+    else:
+        return HttpResponseRedirect('/produk/')
+    
+    return HttpResponse(json_dumps(data), content_type='application/json')
+    
+def checkout(request):
+    pass
+
+
 def _p(request, name, default=None):
     return request.POST.get(name, default)
 
