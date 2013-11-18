@@ -32,3 +32,7 @@ def get_total_item(tipe=''):
             length = 0
             
     return length
+
+@register.filter(name="with_brace")
+def with_brace(char):
+    return "{{" + str(char) + "}}"
