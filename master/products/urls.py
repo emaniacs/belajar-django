@@ -3,7 +3,7 @@ from django.conf.urls import patterns, include, url
 urlpatterns = patterns('',
     url(r'^$', 'products.views.home'),
     
-    url(r'^beli/(?P<item_id>\d+)/$', 'products.views.beli'),
+    url(r'^beli/$', 'products.views.beli'),
     
     url(r'^by/(?P<item_type>\w+)/$', 'products.views.by_type'),
     

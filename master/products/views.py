@@ -1,7 +1,10 @@
 # Create your views here.
 from django.shortcuts import render_to_response, get_object_or_404
-from products.models import Items, ItemType
+from products.models import Items, ItemType, Penjualan, Pelanggan
 from django.core.context_processors import csrf
+from django.http import HttpResponseRedirect, HttpResponse
+from django.utils import timezone
+from json import dumps as json_dumps
 
 def home(request):
     view = 'products/home.html'
@@ -12,20 +15,65 @@ def home(request):
     
     return render_to_response(view, args)
     
-def beli(request, item_id=None):
-    view = 'pulsa/beli_form.html'
-    args = {}
-    args = _get_args()
-    
-    pulsa = get_object_or_404(Items, id=item_id)    
-    
-    if request.method == 'POST':
-        jumlah = request.POST.get('jumlah', 0)
+def beli(request):
+    data = {}
+    user = request.user
+    if request.method == 'POST' and request.is_ajax():
+        if user.is_authenticated():
+            item_id = _p(request, 'id')
+            harga = _p(request, 'harga', False)
+            jumlah = _p(request, 'jumlah', False)
+            kode = _p(request, 'kode', 'single')
+            dll = _p(request, 'dll', '')
+            nama_pelanggan = _p(request, 'nama_pelanggan', False)
+            user = request.user
+            
+            if item_id and harga and jumlah and nama_pelanggan:
+                try:
+                    item = Items.objects.get(id=item_id)
+                    
+                    try:
+                        pelanggan = Pelanggan.objects.get(nama=nama_pelanggan)
+                    except:
+                        pelanggan = Pelanggan(nama=nama_pelanggan)
+                        pelanggan.save()
+                    
+                    penjualan = Penjualan(item=item, user=user, waktu_beli=timezone.now())
+                    penjualan.harga = int(harga)
+                    penjualan.jumlah = int(jumlah)
+                    penjualan.harga_total = int(harga) * int(jumlah)
+                    penjualan.kode = kode
+                    penjualan.pelanggan = pelanggan
+                    penjualan.dll = dll
+                    penjualan.save()
+                    data.update({
+                        'status': True,
+                        'message': 'Ok'
+                    })
+                except Items.DoesNotExist:
+                    data.update({
+                        'status': False,
+                        'message': 'Item did not exist'
+                    })
+                except Exception, e:
+                    data.update({
+                        'status': False,
+                        'message': 'Unknown error' + str(e)
+                    })
+            else:
+                data.update({
+                    'status': False,
+                    'message': 'Invalid data post'
+                })
+        else:
+            data.update({
+                'status': False,
+                'message': 'Login expired, please relogin.'
+            })
     else:
-        args.update({'pulsa':pulsa})
-        args.update(csrf(request))
+        return HttpResponseRedirect('/produk/')
     
-    return render_to_response(view, args)
+    return HttpResponse(json_dumps(data), content_type='application/json')
     
 def by_type(request, item_type):
     view = 'products/by_type.html'
@@ -47,6 +95,9 @@ def by_type_detail(request, item_type, item_id, item_name=None):
         raise
     
     return render_to_response(view, args)
+
+def _p(request, name, default=None):
+    return request.POST.get(name, default)
 
 def _get_args(menu=''):
     args = {}
