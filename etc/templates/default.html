@@ -86,6 +86,8 @@
         </div>
         
         <script type="text/javascript">
+            var Modal, Basket;
+            
             function LOG() {
                 console.log(arguments);
             }
@@ -99,25 +101,55 @@
                 return csrfToken;
             }
             
-            var Modal = {
-                modal: function() {
-                    return $('#myModal');
-                },
-                show: function(title, body, opt) {
-                    var opts =  $.extend({
-                        closeOnBackgroundClick: false
-                    }, opt);
+            function ModalCtrl() {
+                var self=this, _modal, _title, _body, closeLink,
+                    defaultOpt = {
+                        closeOnBackgroundClick: false,
+                    }
+                    init = function() {
+                        _modal = $('#myModal');
+                        _title = _modal.find('.title');
+                        _body = _modal.find('.body');
+                        _closeLink = _modal.find('.close-reveal-modal');
+                    }
+                ;
+                
+                this.modal = function() { return _modal };
+                this.show = function (title, body, opt) {
+                    var opts = $.extend(defaultOpt, opt);
+                    self.body(body).title(title);
+                    return _modal.reveal(opts);
+                };
+                this.hide = function() {_closeLink.trigger('click')};
+                this.showClose = function() {_closeLink.show()};
+                this.hideClose = function() {_closeLink.hide()};
+                this.title = function(title) { _title.html(title); return self};
+                this.body = function(body) { _body.html(body); return self};
+                
+                init();
+            }
+                
+            function BasketCtrl() {
+                var target = $('#basket'),
+                    total = 0,
+                    setTotal = function() {
+                        target.data('basket', total)
+                    };
                     
-                    return Modal.modal().find('.title').html(title)
-                        .end().find('.body').html(body)
-                        .end().reveal(opts)
-                    ;
-                },
-                hide: function () {
-                    return Modal.modal().find('.close-reveal-modal').trigger('click');
+                this.increase = function(val) {
+                    var val = val | 1;
+                    total += val;
+                    setTotal();
+                    return total;
+                };
+                this.decrease = function(val) {
+                    var val = val | 1;
+                    total -= val;
+                    if (total < 0) total = 0;
+                    setTotal();
+                    return total;
                 }
-            };
-                    
+            }
             
             $.ajaxSetup({
                 beforeSend: function(xhr, settings) {
@@ -125,19 +157,21 @@
                 },
                 dataType: 'json',
                 method: 'post',
-                always: function() {
-                    setTimeout(function() {
-                        Modal.hide();
-                    }, 1000);
-                },
                 error: function(jqxhr, error, message) {
                     LOG(jqxhr, error, message);
                     alert(message);
                 }
             });
             
+            $(document).ajaxComplete(function() {
+                Modal.showClose();
+            })
+            
             $(function() {
                 $('.harga .h').hargaIndonesia();
+                
+                Modal = new ModalCtrl();
+                Basket = new BasketCtrl();
             })
         </script>
         {% block script %}{% endblock %}
