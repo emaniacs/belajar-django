@@ -71,47 +71,57 @@
 {% endblock %}
 
 {% block script %}
-<div id="form-beli" style="display:none">
-
-</div>
+<script type="text/html" id="form-beli-template">
+    <div class="">
+        <form onsubmit="return Item.doBeli(this);">
+            <div class="row">
+                <div class="four columns"><p>Id</p></div>
+                <div class="eight columns">
+                    <input type="text" disabled value="{{ 'id'|with_brace }}" name="id">
+                </div>
+            </div>
+            <div class="row">
+                <div class="four columns"><p>Nama</p></div>
+                <div class="eight columns">
+                    <input type="text" disabled value="{{ 'nama'|with_brace }}" name="nama">
+                </div>
+            </div>
+            <div class="row">
+                <div class="four columns"><p>Harga (Rp)</p></div>
+                <div class="eight columns">
+                    <input type="text" disabled value="{{ 'harga'|with_brace }}" name="harga">
+                </div>
+            </div>
+            <div class="row">
+                <div class="four columns"><p>Jumlah</p></div>
+                <div class="eight columns">
+                    <input type="text" value="1" name="jumlah" autofocus
+                        onkeyup="Item.calculate(this.value, {{ 'harga'|with_brace }});">
+                </div>
+            </div>
+            <div class="row">
+                <div class="four columns"><p>Harga total (Rp)</p></div>
+                <div class="eight columns">
+                    <input type="text" disabled value="{{ 'harga'|with_brace }}"
+                        name="total_harga">
+                </div>
+            </div>
+            <div class="row">
+                <div class="four columns"><p>Pelanggan</p></div>
+                <div class="eight columns">
+                    <input type="text" value="Anonymous" name="pelanggan">
+                </div>
+            </div>
+            <div class="row">
+                <button type="submit" class="twelve columns button large">Beli</button>
+            </div>
+        </form>
+    </div>
+</script>
 <script type="text/javascript">
-    var Pulsa = {
-        showBeli: function() {
-            var formBeli = $('#form-beli');
-            
-        },
-        doBeli: function() {
-            
-        },
-        doAdd: function(e) {
-            var self = $(this),
-                id = self.data('id'),
-                data = {id:id, type:'add'},
-                afterShow = function() {
-                    $.ajax({
-                        url: '/produk/add/',
-                        data: data
-                    })
-                    .done(function(response){
-                        if(response.status) {
-                            Modal.title('Proses berhasil.');
-                            Basket.increase();
-                        }
-                        else {
-                            Modal.title('Proses gagal.');
-                        }
-                    })
-                }
-            ;
-            
-            Modal.show('Loading..', 'Item sedang ditambahkan ke keranjang belanja.', {opened:afterShow});
-            Modal.hideClose();
-        }
-    }
-    
     $(function() {
-        $('.pulsa-beli').on('click', Pulsa.showBeli)
-        $('.pulsa-add').on('click', Pulsa.doAdd)
+        $('.pulsa-beli').on('click', Item.showBeli)
+        $('.pulsa-add').on('click', Item.doAdd)
     })
 </script>
 {% endblock %}
@@ -148,9 +158,12 @@
                                 <span class="h">{{item.harga_jual}}</span>
                             </div>
                             <div class="six columns">
-                                <div class="row">
-                                    <span data-id="{{item.id}}" class="button small five pulsa-beli">Beli</span>
-                                    <span data-id="{{item.id}}" class="button five small pulsa-add">Add</span>
+                                <div class="row" id="item{{item.id}}"
+                                     data-id="{{item.id}}" data-nama="{{item.nama}}"
+                                     data-harga="{{item.harga_jual}}"
+                                >
+                                    <span class="button small five pulsa-beli">Beli</span>
+                                    <span class="button five small pulsa-add">Add</span>
                                 </div>
                             </div>
                         </div>

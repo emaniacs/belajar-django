@@ -1,5 +1,7 @@
 {% load static %}
 {% load my_menu %}
+{% load my_helper %}
+
 <html>
     <head>
         <title>
@@ -82,11 +84,14 @@
                 <p>Iam a cool parapgraph that lives inside of an even cooler modal. Wins</p>
             </div>
             
+            <div class="footer" style="text-align:center">
+            
+            </div>
             <a class="close-reveal-modal">&#215;</a>
         </div>
         
         <script type="text/javascript">
-            var Modal, Basket;
+            var Modal, Basket, Item;
             
             function LOG() {
                 console.log(arguments);
@@ -102,7 +107,7 @@
             }
             
             function ModalCtrl() {
-                var self=this, _modal, _title, _body, closeLink,
+                var self=this, _modal, _title, _body, _footer, closeLink,
                     defaultOpt = {
                         closeOnBackgroundClick: false,
                     }
@@ -110,6 +115,7 @@
                         _modal = $('#myModal');
                         _title = _modal.find('.title');
                         _body = _modal.find('.body');
+                        _footer = _modal.find('.footer');
                         _closeLink = _modal.find('.close-reveal-modal');
                     }
                 ;
@@ -125,6 +131,7 @@
                 this.hideClose = function() {_closeLink.hide()};
                 this.title = function(title) { _title.html(title); return self};
                 this.body = function(body) { _body.html(body); return self};
+                this.footer = function(footer) { _footer.html(footer); return self};
                 
                 init();
             }
@@ -151,6 +158,69 @@
                 }
             }
             
+            function ItemCtrl(item) {
+                var self=this,
+                    formBeli,
+                    init = function() {
+                        formBeli = $('#form-beli-template').html()
+                    };
+                    
+                self.showBeli = function(e) {
+                    var data = $(this).parent().data(),
+                        html = formBeli.tinyTpl(data);
+                    Modal.show('Form pembelian', html)
+                    Modal.modal().find('input[name=jumlah]').focus();
+                };
+                self.doAdd = function (e) {
+                    var that = $(this),
+                        id = that.data('id'),
+                        data = {id:id, type:'add'},
+                        afterShow = function() {
+                            $.ajax({
+                                url: '/produk/add/',
+                                data: data
+                            })
+                            .done(function(response){
+                                if(response.status) {
+                                    Modal.title('Proses berhasil.');
+                                    Basket.increase();
+                                }
+                                else {
+                                    Modal.title('Proses gagal.');
+                                }
+                            })
+                        }
+                    ;
+                    
+                    Modal.show('Loading..', 'Item sedang ditambahkan ke keranjang belanja.', {opened:afterShow});
+                    Modal.hideClose();
+                };
+                
+                self.calculate = function(value, harga) {
+                    var totalHarga = $('input[name=total_harga]'),
+                        total = parseFloat(value),
+                        disable = (isNaN(total) || total < 1)
+                        ;
+                    
+                    if (disable) {
+                        totalHarga.val(0);
+                        Modal.footer('Masukkan angka besar dari 1.');
+                    }
+                    else {
+                        Modal.footer('');
+                        var total = parseInt(value) * harga;
+                        totalHarga.val(total);
+                    }
+                    Modal.modal().find('button').attr('disabled', disable);
+                };
+                
+                self.doBeli = function(form) {
+                    return false;
+                }
+                
+                init();
+            }
+            
             $.ajaxSetup({
                 beforeSend: function(xhr, settings) {
                     xhr.setRequestHeader("X-CSRFToken", getCsrfToken());
@@ -167,11 +237,21 @@
                 Modal.showClose();
             })
             
+            String.prototype.tinyTpl = function(obj) {
+                return this.replace(/{{ "(\w+)"|with_brace }}/gm, function(match, captured, index) {
+                    return (obj.hasOwnProperty(captured) && typeof(obj[captured]) == 'function') ?
+                        obj[captured].apply(this, arguments) :
+                        obj[captured] || match
+                    ;
+                })
+            }
+            
             $(function() {
                 $('.harga .h').hargaIndonesia();
                 
                 Modal = new ModalCtrl();
                 Basket = new BasketCtrl();
+                Item = new ItemCtrl();
             })
         </script>
         {% block script %}{% endblock %}
