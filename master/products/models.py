@@ -36,13 +36,13 @@ class Items(models.Model):
 class Pelanggan(models.Model):
     nama = models.CharField(max_length=64)
     alamat = models.TextField(default='')
-    no_hape = models.CharField(max_length=16)
+    no_hape = models.CharField(max_length=16, default='')
     
     class Meta:
         verbose_name_plural = 'Daftar Pelanggan'
 
 class Penjualan(models.Model):
-    nama = models.CharField(max_length=64)
+    item = models.ForeignKey(Items, null=True)
     waktu_beli = models.DateTimeField('purchase date')
     harga = models.IntegerField()
     jumlah = models.IntegerField()

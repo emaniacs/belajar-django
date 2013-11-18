@@ -2,7 +2,6 @@ from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns('',
     url(r'^$', 'products.views.home'),
-    url(r'^detail/(?P<item_id>\d+)/$', 'products.views.detail'),
     
     url(r'^beli/(?P<item_id>\d+)/$', 'products.views.beli'),
     
