@@ -28,12 +28,22 @@
         <script type="text/javascript" src="{% static 'js/foundation.min.js'%}"></script>
         <script type="text/javascript" src="{% static 'js/jquery.foundation.reveal.js'%}"></script>
         <script type="text/javascript" src="{% static 'js/main.js'%}"></script>
-        
+        <style type="text/css" media="print">
+            .hide-on-print, .close-reveal-modal {
+                display: none;
+            }
+            .show-on-print {
+                display: block;
+            }
+            .show-on-print input,textarea {
+                border: none;
+            }
+        </style>
         {% block style %}{% endblock %}
     </head>
     
     <body>
-        <div class="row kapalo">
+        <div class="row kapalo hide-on-print">
             <div class="twelve columns">
 
                 <nav class="top-bar">
@@ -55,7 +65,11 @@
                                 <a href="/checkout"><i class="icon-buy"></i></a>
                             </li>
                             <li class="">
-                                <a href="/logout"><i class="icon-user"></i></a>
+                                {% if user.is_authenticated %}
+                                    <a href="/logout" title="Click to logout"><i class="icon-user"></i></a>
+                                {% else %}
+                                    <a href="/login" title="Click to login"><i class="icon-user"></i></a>
+                                {% endif %}
                             </li>
                         </ul>
                     </section>
@@ -63,7 +77,7 @@
             </div>
         </div>
         
-        <div class="row paruik">
+        <div class="row paruik hide-on-print">
             <div class="twelve columns notif">
             
             </div>
@@ -77,17 +91,23 @@
         
         </div>
         
-        <div id="myModal" class="reveal-modal">
-            <h2 class="title">Awesome. I have it</h2>
+        <div id="myModal" class="reveal-modal show-on-print">
+            <h2 class="title">
+                <span class="f-content"></span>
+                <span class="f-mark pull-right" style="margin-top: 19px;font-size: 15px;"></span>
+            </h2><hr/>
             <div class="body">
                 <p class="lead">Your couch. It is mine.</p>
                 <p>Iam a cool parapgraph that lives inside of an even cooler modal. Wins</p>
             </div>
             
-            <div class="footer" style="text-align:center">
-            
+            <div class="footer">
+                <span class="f-content"></span>
+                <span class="f-mark pull-right">({{user.username}}) Terminal Cell &copy;</span>
             </div>
-            <a class="close-reveal-modal">&#215;</a>
+            <a class="close-reveal-modal">
+                <i class="icon-print" style="display:none"></i>
+                <i class="c">&#215;</i></a>
         </div>
         
         <script type="text/javascript">
@@ -124,14 +144,15 @@
                 this.show = function (title, body, opt) {
                     var opts = $.extend(defaultOpt, opt);
                     self.body(body).title(title);
+                    LOG(opts);
                     return _modal.reveal(opts);
                 };
                 this.hide = function() {_closeLink.trigger('click')};
                 this.showClose = function() {_closeLink.show()};
                 this.hideClose = function() {_closeLink.hide()};
-                this.title = function(title) { _title.html(title); return self};
+                this.title = function(title) { _title.find('.f-content').html(title); return self};
                 this.body = function(body) { _body.html(body); return self};
-                this.footer = function(footer) { _footer.html(footer); return self};
+                this.footer = function(footer) { _footer.find('.f-content').html(footer); return self};
                 
                 init();
             }
@@ -162,6 +183,7 @@
                 var inputOk = true,
                     self=this,
                     formBeli,
+                    itemTimer = null,
                     init = function() {
                         formBeli = $('#form-beli-template').html()
                     },
@@ -172,9 +194,25 @@
                     
                 self.showBeli = function(e) {
                     var data = $(this).parent().data(),
-                        html = formBeli.tinyTpl(data);
-                    Modal.show('Form pembelian', html)
+                        html = formBeli.tinyTpl(data),
+                        opt = {closed: function() {self.timer(false)}},
+                        title = 'Form pembelian'
+                    ;
+                    Modal.show(title, html, opt);
+                    Modal.footer('');
                     Modal.modal().find('input[name=jumlah]').focus();
+                    $('.title .f-mark').html(new Date().toLocaleString());
+                    self.timer(true);
+                };
+                self.timer = function(on){
+                    var $timer = $('.title .f-mark');
+                    clearInterval(itemTimer);
+                    if (on) {
+                        itemTimer = setInterval(function() {
+                            var now = new Date();
+                            $timer.html(now.toLocaleString());
+                        }, 1000)
+                    }
                 };
                 self.doAdd = function (e) {
                     var that = $(this),
@@ -222,15 +260,35 @@
                         Modal.footer('Input salah, check kembali.');
                     }
                     else {
-                        var data, url = '/produk/beli/';
-                        form.find('input').each(function(index, obj) {
+                        var data, url = '/produk/beli/',
+                            inputDisabled = form.find('input.disabled');
+                        inputDisabled.each(function(index, obj) {
                             obj.removeAttribute('disabled');
                         });
                         data = form.serialize();
-                        LOG(data);
+                        Modal.footer('Loading...');
                         ajaxAh(url, data)
                             .done(function(response) {
-                                LOG(response);
+                                if(response.status) {
+                                    self.timer(false);
+                                    Modal.title('Struk pembelian.');
+                                    Modal.footer('Kode: ' + response.code);
+                                    form.find('.submit-button').remove();
+                                    form.find('input').each(function(i, obj) {
+                                        obj.setAttribute('disabled', 'disabled');
+                                    });
+                                    $('.icon-print').show()
+                                        .on('click', function(e) {
+                                            e.stopPropagation();
+                                            window.print();
+                                        })
+                                }
+                                else {
+                                    Modal.footer(response.message);
+                                    inputDisabled.each(function(index, obj) {
+                                        obj.setAttribute('disabled', 'disabled');
+                                    })
+                                }
                             });
                     }
                     return false;

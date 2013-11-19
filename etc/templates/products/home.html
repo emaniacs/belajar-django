@@ -72,24 +72,24 @@
 
 {% block script %}
 <script type="text/html" id="form-beli-template">
-    <div class="">
+    <div class="show-on-print">
         <form onsubmit="return Item.doBeli(this);">
             <div class="row">
                 <div class="four columns"><p>Id</p></div>
                 <div class="eight columns">
-                    <input type="text" disabled value="{{ 'id'|with_brace }}" name="id">
+                    <input type="text" disabled value="{{ 'id'|with_brace }}" name="id" class="disabled">
                 </div>
             </div>
             <div class="row">
                 <div class="four columns"><p>Nama</p></div>
                 <div class="eight columns">
-                    <input type="text" disabled value="{{ 'nama'|with_brace }}" name="nama">
+                    <input type="text" disabled value="{{ 'nama'|with_brace }}" name="nama" class="disabled">
                 </div>
             </div>
             <div class="row">
                 <div class="four columns"><p>Harga (Rp)</p></div>
                 <div class="eight columns">
-                    <input type="text" disabled value="{{ 'harga'|with_brace }}" name="harga">
+                    <input type="text" disabled value="{{ 'harga'|with_brace }}" name="harga" class="disabled">
                 </div>
             </div>
             <div class="row">
@@ -103,7 +103,7 @@
                 <div class="four columns"><p>Harga total (Rp)</p></div>
                 <div class="eight columns">
                     <input type="text" disabled value="{{ 'harga'|with_brace }}"
-                        name="total_harga">
+                        name="total_harga" class="disabled">
                 </div>
             </div>
             <div class="row">
@@ -118,7 +118,7 @@
                     <textarea name="dll"></textarea>
                 </div>
             </div>
-            <div class="row">
+            <div class="row hide-on-print submit-button">
                 <button type="submit" class="twelve columns button large">Beli</button>
             </div>
         </form>
