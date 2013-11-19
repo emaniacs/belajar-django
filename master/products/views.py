@@ -6,6 +6,8 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.utils import timezone
 from json import dumps as json_dumps
 
+from master.utils import random_string
+
 def home(request):
     view = 'products/home.html'
     args = {}
@@ -15,6 +17,7 @@ def home(request):
     
     return render_to_response(view, args)
     
+# TODO(print)
 def beli(request):
     data = {}
     user = request.user
@@ -23,7 +26,6 @@ def beli(request):
             item_id = _p(request, 'id')
             harga = _p(request, 'harga', False)
             jumlah = _p(request, 'jumlah', False)
-            kode = _p(request, 'kode', 'single')
             dll = _p(request, 'dll', '')
             nama_pelanggan = _p(request, 'nama_pelanggan', False)
             user = request.user
@@ -42,11 +44,12 @@ def beli(request):
                     penjualan.harga = int(harga)
                     penjualan.jumlah = int(jumlah)
                     penjualan.harga_total = int(harga) * int(jumlah)
-                    penjualan.kode = kode
+                    penjualan.kode = random_string(8)
                     penjualan.pelanggan = pelanggan
                     penjualan.dll = dll
                     penjualan.save()
                     data.update({
+                        'code'  : penjualan.kode,
                         'status': True,
                         'message': 'Ok'
                     })
