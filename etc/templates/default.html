@@ -1,8 +1,11 @@
 {% load static %}
 {% load my_menu %}
 {% load my_helper %}
-
-<html>
+<!DOCTYPE html>
+<!--[if IE 8]>
+    <html class="no-js lt-ie9" lang="en" ><![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en" > <!--<![endif]-->
     <head>
         <title>
             {% if title %}
@@ -12,6 +15,7 @@
             {% endif %}
             {{user.is_superuser}}
         </title>
+        <link href="{% static 'css/normalize.css' %}" rel="stylesheet" />
         <link href="{% static 'css/foundation.min.css' %}" rel="stylesheet" />
         <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet" />
         <link href="{% static 'css/font-awesome-ie7.css' %}" rel="stylesheet" />
@@ -84,7 +88,12 @@
         
         <div class="row paruik hide-on-print">
             <div class="twelve columns notif">
-            
+                {% if login_error %}
+                <div data-alert="" class="alert-box alert round">
+                    {{login_error}}
+                    <a href="" class="close">×</a>
+                </div>
+                {% endif %}
             </div>
             
             {% block content %}
