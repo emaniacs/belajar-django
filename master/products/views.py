@@ -16,6 +16,12 @@ def home(request):
     view = 'products/home.html'
     tipe = ItemType.objects.all()
     args.update({'all_type': tipe})
+    args.update({'login_error': request.session.get('login_error')})
+    
+    try:
+        del request.session['login_error']
+    except:
+        pass
     
     return render_to_response(view, args)
     
