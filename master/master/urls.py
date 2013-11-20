@@ -11,21 +11,34 @@ urlpatterns = patterns('',
      # login and logout
     url(r'^login/$', 'master.views.llogin', name='login'),
     url(r'^logout/$', 'master.views.llogout', name='logout'),
-    # url(r'^master/', include('master.foo.urls')),
 
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    url(r'^ambo/', include(admin.site.urls)),
+     
+    # /PRODUK/*
+    #~ url(r'^produk/', include('products.urls')),
+    url(r'^produk/$', 'products.views.home'),
+    
+    url(r'^produk/beli/$', 'products.views.beli'),
+    url(r'^produk/add/$', 'products.views.add'),
+    url(r'^produk/checkout/$', 'products.views.checkout'),
+    url(r'^produk/checkouts/$', 'products.views._tmp'),
+    
+    url(r'^produk/by/(?P<item_type>\w+)/$', 'products.views.by_type'),
+    
+    url(r'^produk/by/(?P<item_type>\w+)/(?P<item_id>\d+)/(?P<item_name>.*)/$', 'products.views.by_type_detail'),
+    url(r'^produk/by/(?P<item_type>\w+)/(?P<item_id>\d+)/$', 'products.views.by_type_detail'),
+     
+     
+    # /STATS/*
+    url(r'^stats/', 'stats.views.home'),
 
-    # Uncomment the next line to enable the admin:
-     url(r'^ambo/', include(admin.site.urls)),
-     
-     # /produk/*
-     url(r'^produk/', include('products.urls')),
-     
-     # /stats/*
-     url(r'^stats/', include('stats.urls')),
-     
-     
+    # PENJUALAN
+    url(r'^penjualan/$', 'penjualan.views.home'),
+    url(r'^penjualan/hari-ini/$', 'penjualan.views.hari_ini'),
+
+    # PEMBAYARAN
+    url(r'^pembayaran/$', 'pembayaran.views.home'),
+    url(r'^pembayaran/(?P<tipe>\w+)/$', 'pembayaran.views.bayar'),
 )
 
 handler404 = 'master.views.error404'
