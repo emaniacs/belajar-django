@@ -3,71 +3,7 @@
 {% load my_helper %}
 
 {% block style %}
-<style>
-    .item-detail{
-        margin-left: 11px;
-        position:relative;
-    }
-    .item-detail b{
-        
-    }
-    .item-detail hr{
-        margin-top:0;
-    }
-    .harga {
-        margin-top:5px;
-        left:1px;
-        margin-bottom:1px;
-        position: relative;
-    }
-    .harga span.rp {
-        position: absolute;
-        top: -11px;
-        font-size: 11px;
-        left: 4px;
-        font-weight: bold; 
-    }
-    .harga span.h{
-        font-size:23px;
-        font-weight: bold;
-    }
-    .items div {
-        min-height:173px;
-    }
-    .item-detail .btns, p.harga {
-        position:absolute;
-        bottom:1px
-    }
-    .btns {
-        right: 1px;
-    }
-    
-    .item-title {
-        position: relative;
-    }
-    .items {
-        padding-bottom:3px;
-        margin-bottom: 5px
-    }
-    .items:hover {
-        border-bottom: 7px solid #aaa;
-    }
-    .products a {
-        font-weight: bold;
-        font-size: 23px;
-    }
-    
-    .item:hover {
-        //background-color: #ddd;
-        border-bottom: 3px solid #aaa;
-    }
-    .item {
-        min-height: 201px;
-    }
-    .item .detail-atas {
-        min-height:151px;
-    }
-</style>
+
 {% endblock %}
 
 {% block script %}
@@ -138,43 +74,38 @@
         <div class="row">
             <div class="twelve columns">
                 <a href="/produk/by/{{tipe.nama}}">
-                    <h2>{{tipe.nama_keren}} ({{tipe.nama|get_total_item}})</h2>
+                    <h3>{{tipe.nama_keren}} ({{tipe.nama|get_total_item}})</h3>
                 </a>
             </div>
             <hr/>
             <div class="twelve columns">
                 <div class="row">
-                    {% for item in tipe.nama|get_item_by_type:4 %}
-                    <div class="three columns item">
-                        <div class="row detail-atas">
-                            <div class="six columns image">
-                                <a href="/produk/by/{{tipe.nama}}/{{item.id}}">
-                                    <img src="{{item.img}}" class="img"/>
-                                </a>
-                            </div>
-                            <div class="six columns detail">
-                                <p><h5>{{item.nama}}</h5></p>
-                                <p>Stock <b>{{item.stok}}</b></p>
-                            </div>
-                        </div>
-                        
-                        <div class="row detail-bawah">
-                            <div class="six columns harga">
-                                <span class="rp">Rp</span>
-                                <span class="h">{{item.harga_jual}}</span>
-                            </div>
-                            <div class="six columns">
-                                <div class="row" id="item{{item.id}}"
-                                     data-id="{{item.id}}" data-nama="{{item.nama}}"
-                                     data-harga="{{item.harga_jual}}"
-                                >
-                                    <span class="button small five pulsa-beli">Beli</span>
-                                    <span class="button five small pulsa-add">Add</span>
-                                </div>
+                {% for item in tipe.nama|get_item_by_type:4 %}
+                    <div class="three columns">
+                        <div class="row">
+                            <div class="columns twelve">
+                                <ul class="pricing-table">
+                                    <li class="title"><a href="/produk/by/{{tipe.nama}}/{{item.id}}">{{item.nama}}</a></li>
+                                    <li class="harga price">
+                                        <span class="rp">Rp</span>
+                                        <span class="h">{{item.harga_jual}}</span>
+                                    </li>
+                                    <li class="description">
+                                        <img src="{{item.img}}" class="img">
+                                    </li>
+                                    <li class="bullet-item">Stok {{item.stok}}</li>
+                                    <li class="cta-button" id="item{{item.id}}"
+                                         data-id="{{item.id}}"
+                                         data-nama="{{item.nama}}"
+                                         data-harga="{{item.harga_jual}}">
+                                        <a class="button small five pulsa-beli" href="#">Beli</a>
+                                        <a class="button small five pulsa-add success" href="#">Add</a>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
-                    {% endfor %}
+                {% endfor %}
                 </div>
             </div>
         </div>
