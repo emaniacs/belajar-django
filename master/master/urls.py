@@ -7,6 +7,10 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'master.views.home', name='home'),
+    
+     # login and logout
+    url(r'^login/$', 'master.views.llogin', name='login'),
+    url(r'^logout/$', 'master.views.llogout', name='logout'),
     # url(r'^master/', include('master.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
@@ -20,6 +24,7 @@ urlpatterns = patterns('',
      
      # /stats/*
      url(r'^stats/', include('stats.urls')),
+     
      
 )
 
