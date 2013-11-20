@@ -8,14 +8,23 @@ from json import dumps as json_dumps
 
 from master.utils import random_string
 
+ARGS = {}
+
+def _get_args(function):
+    def inner(*args, **kwargs):
+        ARGS['user'] = args[0].user
+        return function(*args, **kwargs)
+    
+    return inner
+
+@_get_args
 def home(request):
     view = 'products/home.html'
-    args = {}
     tipe = ItemType.objects.all()
-    args.update({'all_type': tipe})
-    args['user'] = request.user
+    ARGS.update({'all_type': tipe})
+    ARGS.update({'MENU': ''})
     
-    return render_to_response(view, args)
+    return render_to_response(view, ARGS)
     
 # TODO(print)
 def beli(request):
@@ -77,16 +86,17 @@ def beli(request):
         return HttpResponseRedirect('/produk/')
     
     return HttpResponse(json_dumps(data), content_type='application/json')
-    
+
+@_get_args
 def by_type(request, item_type):
     view = 'products/by_type.html'
-    args = _get_args(item_type.lower())
     tipe = item_type
     all_items = Items.objects.count()
-    args.update({'all_items': all_items})
-    args.update({'tipe': tipe})
+    ARGS.update({'all_items': all_items})
+    ARGS.update({'tipe': tipe})
+    ARGS.update({'MENU': tipe})
     
-    return render_to_response(view, args)
+    return render_to_response(view, ARGS)
     
 def by_type_detail(request, item_type, item_id, item_name=None):
     view = 'products/detail.html'
@@ -150,8 +160,3 @@ def checkout(request):
 
 def _p(request, name, default=None):
     return request.POST.get(name, default)
-
-def _get_args(menu=''):
-    args = {}
-    args.update({'MENU': menu})
-    return args
