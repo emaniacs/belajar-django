@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<!--[if IE 8]>
+    <html class="no-js lt-ie9" lang="en" ><![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en" > <!--<![endif]-->
+    <head>
+        <title>Login dulu coi</title>
+        <link href="{% static 'css/normalize.css' %}" rel="stylesheet" />
+        <link href="{% static 'css/foundation4.min.css' %}" rel="stylesheet" />
+        <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet" />
+        <link href="{% static 'css/font-awesome-ie7.css' %}" rel="stylesheet" />
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+            <script src="{% static 'js/html5shiv.js'%}"></script>
+        <![endif]-->
+
+        
+        <link rel="shortcut icon" href="{% static 'img/favicon.png'%}"/>
+        
+        <script type="text/javascript" src="{% static 'js/jquery.js'%}"></script>
+        <style>
+            
+            .login-row {
+                width:100%;
+                position:absolute;
+                margin-top:7%;
+                padding: 17px;
+                background-color: #eee;
+            }
+        </style>
+    </head>
+    
+    <body>
+        <div class="login-row">
+            {% if login_error %}
+            <div data-alert="" class="alert-box alert round">
+                {{login_error}}
+                <a href="" class="close">×</a>
+            </div>
+            {% endif %}
+
+            <div class="row panel">
+                <div class="large-7 columns" style="height:70%">
+                    <img src="{% static 'img/logo.png' %}">
+                </div>
+                <div class="large-5 columns panel">
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="small-4 columns">Username</div>
+                            <div class="large-8 columns">
+                                <input name="u" type="text">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="small-4 columns">Password</div>
+                            <div class="large-8 columns">
+                                <input name="p" type="password">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="large-12 columns">
+                                <button class="large-12" type="submit">Login</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
