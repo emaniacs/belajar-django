@@ -81,8 +81,10 @@ def beli(request):
 def by_type(request, item_type):
     view = 'products/by_type.html'
     args = _get_args(item_type.lower())
-    items = Items.objects.filter(tipe_item__nama=item_type)
-    args.update({'items': items})
+    tipe = item_type
+    all_items = Items.objects.count()
+    args.update({'all_items': all_items})
+    args.update({'tipe': tipe})
     
     return render_to_response(view, args)
     

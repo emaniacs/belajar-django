@@ -1,0 +1,52 @@
+{% extends 'default.html' %}
+{% load my_helper %}
+
+{% block content %}
+<div class="twelve columns panel">
+    <div class="row">
+        <div class="twelve columns">
+            <a href="/produk/by/{{tipe.nama}}">
+                <h3>Semua {{tipe}} ({{all_items}})</h3>
+            </a>
+        </div>
+        <hr/>
+        <div class="twelve columns">
+            <div class="row">
+                {% for i, item in tipe|get_item_by_type:10 %}
+                {% if i == 4 %}
+                    </div>
+                    <div class="row">
+                {% endif %}
+                <div class="three columns">
+                    <div class="row">
+                        <div class="columns twelve">
+                            <ul class="pricing-table">
+                                <li class="title"><a href="/produk/by/{{tipe}}/{{item.id}}">{{item.nama}}</a></li>
+                                <li class="harga price">
+                                    <span class="rp">Rp</span>
+                                    <span class="h">{{item.harga_jual}}</span>
+                                </li>
+                                <li class="description">
+                                    <img src="{{item.img}}" class="img">
+                                </li>
+                                <li class="bullet-item">Stok {{item.stok}}</li>
+                                <li class="cta-button" id="item{{item.id}}"
+                                     data-id="{{item.id}}"
+                                     data-nama="{{item.nama}}"
+                                     data-harga="{{item.harga_jual}}">
+                                    <a class="button small five pulsa-beli" href="#">Beli</a>
+                                    <a class="button small five pulsa-add success" href="#">Add</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% for x in i|make_list %}
+                    <div class="three columns"></div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
