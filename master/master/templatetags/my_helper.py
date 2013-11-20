@@ -12,10 +12,12 @@ def create_range(val):
 
 
 @register.filter(name='get_item_by_type')
-def get_item_by_type(tipe, skip=4):
-    
+def get_item_by_type(tipe, skip=None):
     try:
-        items = Items.objects.filter(tipe_item__nama=tipe).order_by('-waktu_modif')[:skip]
+        if skip is None:
+            items = Items.objects.filter(tipe_item__nama=tipe).order_by('-waktu_modif')
+        else:
+            items = Items.objects.filter(tipe_item__nama=tipe).order_by('-waktu_modif')[:skip]
     except:
         items = {}
         
