@@ -8,23 +8,16 @@ from json import dumps as json_dumps
 
 from master.utils import random_string
 
-ARGS = {}
-
-def _get_args(function):
-    def inner(*args, **kwargs):
-        ARGS['user'] = args[0].user
-        return function(*args, **kwargs)
-    
-    return inner
-
-@_get_args
 def home(request):
+    args = {
+        'MENU': '',
+        'user': request.user
+    }
     view = 'products/home.html'
     tipe = ItemType.objects.all()
-    ARGS.update({'all_type': tipe})
-    ARGS.update({'MENU': ''})
+    args.update({'all_type': tipe})
     
-    return render_to_response(view, ARGS)
+    return render_to_response(view, args)
     
 # TODO(print)
 def beli(request):
@@ -87,16 +80,18 @@ def beli(request):
     
     return HttpResponse(json_dumps(data), content_type='application/json')
 
-@_get_args
 def by_type(request, item_type):
+    args = {
+        'MENU': item_type,
+        'user': request.user
+    }
     view = 'products/by_type.html'
-    tipe = item_type
+
     all_items = Items.objects.count()
-    ARGS.update({'all_items': all_items})
-    ARGS.update({'tipe': tipe})
-    ARGS.update({'MENU': tipe})
+    args.update({'all_items': all_items})
+    args.update({'item_type': item_type})
     
-    return render_to_response(view, ARGS)
+    return render_to_response(view, args)
     
 def by_type_detail(request, item_type, item_id, item_name=None):
     view = 'products/detail.html'

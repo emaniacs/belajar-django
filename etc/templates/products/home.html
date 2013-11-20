@@ -60,12 +60,7 @@
         </form>
     </div>
 </script>
-<script type="text/javascript">
-    $(function() {
-        $('.pulsa-beli').on('click', Item.showBeli)
-        $('.pulsa-add').on('click', Item.doAdd)
-    })
-</script>
+
 {% endblock %}
 
 {% block content %}
@@ -98,8 +93,8 @@
                                          data-id="{{item.id}}"
                                          data-nama="{{item.nama}}"
                                          data-harga="{{item.harga_jual}}">
-                                        <a class="button small five pulsa-beli" href="#">Beli</a>
-                                        <a class="button small five pulsa-add success" href="#">Add</a>
+                                        <a class="button small five item-beli" href="#">Beli</a>
+                                        <a class="button small five item-add success" href="#">Add</a>
                                     </li>
                                 </ul>
                             </div>
