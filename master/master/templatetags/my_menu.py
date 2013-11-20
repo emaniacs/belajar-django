@@ -8,7 +8,7 @@ def get_menu(name):
     '''
     '''
         
-    menus = Menu.objects.filter(status=1).order_by('-nama')
+    menus = Menu.objects.filter(status=1).order_by('id')
     for menu in menus:
         if menu.nama.lower() == name:
             menu.status = 'active'
