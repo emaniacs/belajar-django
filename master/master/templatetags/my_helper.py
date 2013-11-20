@@ -21,7 +21,7 @@ def get_item_by_type(tipe, skip=None):
     except:
         items = {}
         
-    return items
+    return enumerate(items)
     
 @register.filter(name='get_total_item')
 def get_total_item(tipe=''):
