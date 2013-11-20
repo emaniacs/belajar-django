@@ -80,7 +80,7 @@
             <hr/>
             <div class="twelve columns">
                 <div class="row">
-                {% for item in tipe.nama|get_item_by_type:4 %}
+                {% for i, item in tipe.nama|get_item_by_type:4 %}
                     <div class="three columns">
                         <div class="row">
                             <div class="columns twelve">
@@ -105,6 +105,9 @@
                             </div>
                         </div>
                     </div>
+                {% endfor %}
+                {% for x in i|make_list %}
+                    <div class="three columns"></div>
                 {% endfor %}
                 </div>
             </div>
