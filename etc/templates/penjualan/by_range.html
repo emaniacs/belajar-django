@@ -1,0 +1,40 @@
+{% extends 'default.html' %}
+
+{% block content %}
+    <div class="twelve columns panel">
+        <div class="row">
+            <div class="twelve columns">
+                <table class="table twelve">
+                    <thead>
+                        <tr>
+                            <th>Nama</th>
+                            <th>Waktu</th>
+                            <th>Harga</th>
+                            <th>Jumlah</th>
+                            <th>Total Harga</th>
+                            <th>Pelanggan</th>
+                            <th>Kode</th>
+                            <th>User</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for galeh in penjualan %}
+                            <tr>
+                                <td>{{galeh.item.nama}}</td>
+                                <td>{{galeh.waktu_beli}}</td>
+                                <td>{{galeh.harga}}</td>
+                                <td>{{galeh.jumlah}}</td>
+                                <td>{{galeh.harga_total}}</td>
+                                <td>{{galeh.pelanggan.nama}}</td>
+                                <td>{{galeh.kode}}</td>
+                                <td>{{galeh.user}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <b>{{satu}}</b><br/>
+    <b>{{dua}}</b><br/>
+ {% endblock %}
