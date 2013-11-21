@@ -60,8 +60,9 @@ def by_filter(request, tahun, bulan=None, hari=None):
     view = 'penjualan/hari_ini.html'
     args = {}
     args.update({'user': user})
+    args.update({'sekarang': waktu})
     args.update({'penjualan': penjualan})
-    args.update({'total_uang': penjualan.aggregate(Sum('harga_total'))})
+    args.update({'uang': penjualan.aggregate(Sum('harga_total'))})
     args.update({'total_penjualan': len(penjualan)})
     
     return render_to_response(view, args)
