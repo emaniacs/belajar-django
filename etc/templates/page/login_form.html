@@ -33,36 +33,39 @@
     
     <body>
         <div class="login-row">
-            {% if login_error %}
-            <div data-alert="" class="alert-box alert round">
-                {{login_error}}
-                <a href="" class="close">×</a>
-            </div>
-            {% endif %}
-
-            <div class="row panel">
-                <div class="large-7 columns" style="height:70%">
-                    <img src="{% static 'img/logo.png' %}">
+            <div class="row container-single">
+                <div class="large-7 columns mainbar">
+                    <div class="content">
+                        <h2>Terminal Cell</h2>
+                        <div class="ads hides">
+                        <div class="image">
+                            <img src="{% static 'terminal-logo.png'%}" alt="Indowebster">
+                        </div>
+                    </div>
                 </div>
-                <div class="large-5 columns panel">
+            </div>
+            <div class="large-5 columns sidebar">
+                <div class="login-form">
+                    <h4>Form Login</h4>
+                    {% if login_error %}
+                        <div data-alert="" class="alert-box alert">
+                            {{login_error}}
+                            <a href="" class="close">×</a>
+                        </div>
+                    {% endif %}
                     <form method="post" action="">
                         {% csrf_token %}
-                        <div class="row">
-                            <div class="small-4 columns">Username</div>
-                            <div class="large-8 columns">
-                                <input name="u" type="text">
-                            </div>
+                        <div class="field f-email ">
+                            <div class="clear"></div>
+                            <input type="text" name="u" value="{{username}}" placeholder="username" autofocus>
                         </div>
-                        <div class="row">
-                            <div class="small-4 columns">Password</div>
-                            <div class="large-8 columns">
-                                <input name="p" type="password">
-                            </div>
+
+                        <div class="field f-password  ">
+                            <input type="password" name="p" placeholder="password" value="">
                         </div>
-                        <div class="row">
-                            <div class="large-12 columns">
-                                <button class="large-12" type="submit">Login</button>
-                            </div>
+                
+                        <div class="field f-button">
+                            <button class="button" name="login" type="submit">Login</button>
                         </div>
                     </form>
                 </div>
