@@ -53,7 +53,7 @@ class Penjualan(models.Model):
     harga_total = models.IntegerField()
     pelanggan = models.ForeignKey(Pelanggan)
     kode = models.CharField(max_length=32)
-    dll = models.CharField(max_length=32, default='')
+    dll = models.CharField(max_length=64, default='')
     
     def __unicode__(self):
         return 'Penjualan %s (%d) %s' % (self.item.nama, self.jumlah, self.waktu_beli)
