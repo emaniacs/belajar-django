@@ -30,6 +30,7 @@ def llogin(request):
         else:
             args.update(csrf(request))
             args.update({'login_error': 'Login gagal.'})
+            args.update({'username': username})
             ret = render_to_response('page/login_form.html', args)
     else:
         args.update(csrf(request))
