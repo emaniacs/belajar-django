@@ -4,7 +4,7 @@
     <div class="twelve columns panel">
         <div class="row">
             <div class="twelve columns">
-                <h3>Laporan penjualan hari ini ({{sekarang|date:"l, d F Y"}})</h3>
+                <h3>Laporan penjualan ({{sekarang|date:"l, d F Y"}})</h3>
                 <table class="table twelve">
                     <thead>
                         <tr>
@@ -12,10 +12,11 @@
                             <th>Waktu</th>
                             <th>Harga</th>
                             <th>Jumlah</th>
-                            <th>Total Harga</th>
+                            <th>Total</th>
                             <th>Pelanggan</th>
                             <th>Kode</th>
                             <th>User</th>
+                            <th>Keterangan</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -29,6 +30,7 @@
                                 <td>{{galeh.pelanggan.nama}}</td>
                                 <td>{{galeh.kode}}</td>
                                 <td>{{galeh.user}}</td>
+                                <td>{{galeh.dll}}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
