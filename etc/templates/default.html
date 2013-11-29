@@ -68,7 +68,9 @@
                     <section>
                         <ul class="left">
                             {% for menu in MENU|get_menu %}
-                            <li class="{{menu.status}}"><a href="{{menu.link}}">{{menu.nama}}</a></li>
+                                {% if menu.group > 0 or user.is_authenticated %}
+                                    <li class="{{menu.status}}"><a href="{{menu.link}}">{{menu.nama}}</a></li>
+                                {% endif %}
                             {% endfor %}
                         </ul>
 
