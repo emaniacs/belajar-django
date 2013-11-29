@@ -36,6 +36,7 @@ def beli(request):
             jumlah = _p(request, 'jumlah', False)
             dll = _p(request, 'dll', '')
             nama_pelanggan = _p(request, 'nama_pelanggan', False)
+            pembayaran = _p(request, 'pembayaran', 'lunas')
             user = request.user
             
             if item_id and harga and jumlah and nama_pelanggan:
@@ -54,6 +55,7 @@ def beli(request):
                     penjualan.harga_total = int(harga) * int(jumlah)
                     penjualan.kode = random_string(8)
                     penjualan.pelanggan = pelanggan
+                    penjualan.pembayaran = pembayaran
                     penjualan.dll = dll
                     penjualan.save()
                     data.update({

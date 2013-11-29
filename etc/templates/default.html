@@ -293,6 +293,12 @@
                                     Modal.title('Struk pembelian.');
                                     Modal.footer('Kode: ' + response.code);
                                     form.find('.submit-button').remove();
+                                    var pemb = form.find('select[name=pembayaran]'),
+                                        pembP = pemb.parent(),
+                                        val = pemb.val();
+                                    pemb.remove();
+                                    pembP.html('<h4 style="margin:0">'+val+'</h4>');
+                                    
                                     form.find('input').each(function(i, obj) {
                                         obj.setAttribute('disabled', 'disabled');
                                     });

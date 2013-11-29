@@ -42,8 +42,8 @@ class Pelanggan(models.Model):
         return self.nama
         
     class Meta:
-        verbose_name_plural = 'Daftar Pelanggan'
-
+        verbose_name_plural = 'Daftar pelanggan'
+        
 class Penjualan(models.Model):
     item = models.ForeignKey(Items, null=True)
     waktu_beli = models.DateTimeField('purchase date')
@@ -54,6 +54,7 @@ class Penjualan(models.Model):
     pelanggan = models.ForeignKey(Pelanggan)
     kode = models.CharField(max_length=32)
     dll = models.CharField(max_length=64, default='')
+    pembayaran = models.CharField(max_length=18, default='lunas')
     
     def __unicode__(self):
         return 'Penjualan %s (%d) %s' % (self.item.nama, self.jumlah, self.waktu_beli)
