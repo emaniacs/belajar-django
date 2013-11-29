@@ -36,8 +36,10 @@ urlpatterns = patterns('',
     url(r'^penjualan/$', 'penjualan.views.home'),
     url(r'^penjualan/hari-ini/$', 'penjualan.views.hari_ini'),
     url(r'^penjualan/(?P<tahun>\d{4})/$', 'penjualan.views.by_filter'),
-    url(r'^penjualan/(?P<tahun>\d{4})/(?P<bulan>\d{2})/$', 'penjualan.views.by_filter'),
+    url(r'^penjualan/(?P<tahun>\d{4})/(?P<bulan>\d{1,2})/$', 'penjualan.views.by_filter'),
     url(r'^penjualan/(?P<tahun>\d{4})/(?P<bulan>\d{1,2})/(?P<hari>\d{1,2})/$', 'penjualan.views.by_filter'),
+    
+    url(r'^penjualan/(?P<t1>\d{4})-(?P<b1>\d{1,2})-(?P<h1>\d{1,2})/(?P<t2>\d{4})-(?P<b2>\d{1,2})-(?P<h2>\d{1,2})$', 'penjualan.views.by_range'),
 
     # PEMBAYARAN
     url(r'^pembayaran/$', 'pembayaran.views.home'),

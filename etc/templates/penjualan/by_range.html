@@ -4,6 +4,7 @@
     <div class="twelve columns panel">
         <div class="row">
             <div class="twelve columns">
+                <h3>Laporan penjualan ({{waktu1|date:"d F Y"}} - {{waktu2|date:"d F Y"}})</h3>
                 <table class="table twelve">
                     <thead>
                         <tr>
@@ -11,27 +12,59 @@
                             <th>Waktu</th>
                             <th>Harga</th>
                             <th>Jumlah</th>
-                            <th>Total Harga</th>
+                            <th>Total</th>
                             <th>Pelanggan</th>
                             <th>Kode</th>
                             <th>User</th>
+                            <th>Keterangan</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for galeh in penjualan %}
                             <tr>
                                 <td>{{galeh.item.nama}}</td>
-                                <td>{{galeh.waktu_beli}}</td>
-                                <td>{{galeh.harga}}</td>
+                                <td>{{galeh.waktu_beli|date:"d F Y h:m:s"}}</td>
+                                <td class="harga"><span class="h">{{galeh.harga}}</span></td>
                                 <td>{{galeh.jumlah}}</td>
-                                <td>{{galeh.harga_total}}</td>
+                                <td class="harga"><span class="h">{{galeh.harga_total}}</span></td>
                                 <td>{{galeh.pelanggan.nama}}</td>
                                 <td>{{galeh.kode}}</td>
                                 <td>{{galeh.user}}</td>
+                                <td>{{galeh.dll}}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
                 </table>
+            </div>
+            <div class="row">
+                <div class="twelve columns">
+                    <div class="row">
+                        <div class="four columns push-seven">
+                            <div class="row">
+                                <div class="six column">
+                                    <p>Jumlah penjualan</p>
+                                </div>
+                                <div class="five column harga pull-one">
+                                    <p class="h">{{total_penjualan}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="twelve columns">
+                    <div class="row">
+                        <div class="four columns push-seven">
+                            <div class="row">
+                                <div class="six column">
+                                    <p>Total uang</p>
+                                </div>
+                                <div class="five column harga">
+                                    Rp <span class="h">{{uang.harga_total__sum}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
