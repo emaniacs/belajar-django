@@ -7,8 +7,15 @@ from django.db.models import Sum
 
 import datetime
 
+def _get_args(request):
+    return {
+        'MENU': 'penjualan',
+        'user': request.user,
+    }
+
 def home(request):
-    return HttpResponseRedirect('/penjualan/hari-ini')
+    args = _get_args(request)
+    return HttpResponseRedirect('/penjualan/hari-ini', args)
     
 def hari_ini(request):
     user = request.user
@@ -16,8 +23,8 @@ def hari_ini(request):
         return HttpResponseRedirect('/produk')
         
     view = 'penjualan/hari_ini.html'
-    args = {}
-    args.update({'user': user})
+    
+    args = _get_args(request)
     
     sekarang = datetime.date.today()
     
@@ -58,8 +65,8 @@ def by_filter(request, tahun, bulan=None, hari=None):
     penjualan = Penjualan.objects.filter(waktu_beli__range=[waktu, waktu_range])
     
     view = 'penjualan/hari_ini.html'
-    args = {}
-    args.update({'user': user})
+    
+    args = _get_args(request)
     args.update({'sekarang': waktu})
     args.update({'waktu_range': waktu_range})
     args.update({'penjualan': penjualan})
@@ -86,8 +93,8 @@ def by_range(request, t1, b1, h1, t2, b2, h2):
     
     view = 'penjualan/by_range.html'
     
-    args = {}
-    args.update({'user': user})
+    
+    args = _get_args(request)
     
     penjualan = Penjualan.objects.filter(waktu_beli__range=[waktu1, waktu2])
     
