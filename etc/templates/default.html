@@ -7,13 +7,10 @@
 <!--[if gt IE 8]><!-->
 <html class="no-js" lang="en" > <!--<![endif]-->
     <head>
-        <title>
+        <title>Terminal Cell - {{MENU|capfirst}} - 
             {% if title %}
                 {{title}}
-            {% else %}
-                {{'Django'}}
             {% endif %}
-            {{user.is_superuser}}
         </title>
         <link href="{% static 'css/normalize.css' %}" rel="stylesheet" />
         <link href="{% static 'css/foundation.min.css' %}" rel="stylesheet" />
