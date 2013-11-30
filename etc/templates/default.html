@@ -224,6 +224,9 @@
                     Modal.show(title, html, opt);
                     Modal.footer('');
                     Modal.modal().find('input[name=jumlah]').focus();
+                    Modal.modal().find('input[name=nama_pelanggan]').on('keyup', function() {
+                        self.getPelanggan(this);
+                    });
                     $('.title .f-mark').html(new Date().toLocaleString());
                     self.timer(true);
                 };
@@ -321,6 +324,32 @@
                             });
                     }
                     return false;
+                }
+                
+                self.getPelanggan = function(obj) {
+                    var val = $(obj).val();
+                    
+                    if (val.length > 3) {
+                        var url = '/ajax/pelanggan/',
+                            data = {nama:val},
+                            ul = $(obj).next()
+                        ;
+                        ul.empty();
+                        ajaxAh(url, data)
+                            .done(function(response) {
+                                LOG(response);
+                                if (response.status) {
+                                    $.each(response.data, function (i, val) {
+                                        var li = $('<li data-nama="'+val.nama+'">');
+                                        li.append('<a href="javascript:void(0);">'+ val.nama + '</a></li>');
+                                        li.on('click', function() {
+                                            $(obj).val($(this).data('nama'));
+                                        });
+                                        li.appendTo(ul);
+                                    })
+                                }
+                            })
+                    }
                 }
                 
                 init();
