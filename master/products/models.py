@@ -69,6 +69,7 @@ class Log(models.Model):
     data = models.TextField()
     
 class Menu(models.Model):
+    key = models.CharField(max_length=18, default='')
     nama = models.CharField(max_length=32)
     group = models.IntegerField()
     link = models.CharField(max_length=32)
