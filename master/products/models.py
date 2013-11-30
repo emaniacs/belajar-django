@@ -73,9 +73,11 @@ class Menu(models.Model):
     group = models.IntegerField()
     link = models.CharField(max_length=32)
     status = models.IntegerField(default=1)
+    position = models.IntegerField(default=1)
     
     class Meta:
         verbose_name_plural = 'Daftar Menu'
+        ordering = ['position', '-nama']
         
     def __unicode__(self):
         return self.nama
