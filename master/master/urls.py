@@ -44,6 +44,9 @@ urlpatterns = patterns('',
     # PEMBAYARAN
     url(r'^pembayaran/$', 'pembayaran.views.home'),
     url(r'^pembayaran/(?P<tipe>\w+)/$', 'pembayaran.views.bayar'),
+    
+    # Ajax
+    url(r'^ajax/pelanggan/$', 'ajax.views.pelanggan'),
 )
 
 handler404 = 'master.views.error404'

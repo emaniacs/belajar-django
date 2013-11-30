@@ -134,7 +134,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'master',
     'south',
-
+    'ajax',
     'products',
 )
 
