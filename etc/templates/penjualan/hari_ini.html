@@ -24,14 +24,20 @@
                         {% for galeh in penjualan %}
                             <tr>
                                 <td>{{galeh.item.nama}}</td>
-                                <td>{{galeh.waktu_beli|date:"d F Y h:m:s"}}</td>
+                                <td>{{galeh.waktu_beli|date:"d M Y h:m:s"}}</td>
                                 <td class="harga"><span class="h">{{galeh.harga}}</span></td>
                                 <td>{{galeh.jumlah}}</td>
                                 <td class="harga"><span class="h">{{galeh.harga_total}}</span></td>
                                 <td>{{galeh.pelanggan.nama}}</td>
                                 <td>{{galeh.kode}}</td>
                                 <td>{{galeh.user}}</td>
-                                <td>{{galeh.pembayaran}}</td>
+                                <td>
+                                    {% if galeh.pembayaran == 'hutang' %}
+                                        <label class="label alert">Hutang</label>
+                                    {% else %}
+                                        <label class="label">Lunas</label>
+                                    {% endif %}
+                                </td>
                                 <td>{{galeh.dll}}</td>
                             </tr>
                         {% endfor %}
