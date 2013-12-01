@@ -12,7 +12,7 @@ urlpatterns = patterns('',
     url(r'^login/$', 'master.views.llogin', name='login'),
     url(r'^logout/$', 'master.views.llogout', name='logout'),
 
-    url(r'^ambo/', include(admin.site.urls)),
+    url(r'^_/', include(admin.site.urls)),
      
     # /PRODUK/*
     #~ url(r'^produk/', include('products.urls')),
