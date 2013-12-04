@@ -112,7 +112,7 @@
                         </div>
                     </div>
                 {% endfor %}
-                {% for x in i|make_list %}
+                {% for x in forloop.counter|make_list %}
                     <div class="three columns"></div>
                 {% endfor %}
                 </div>

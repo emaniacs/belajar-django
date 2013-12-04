@@ -38,3 +38,10 @@ def get_total_item(tipe=''):
 @register.filter(name="with_brace")
 def with_brace(char):
     return "{{" + str(char) + "}}"
+
+
+@register.filter(name='ifempty')
+def ifempty(val, default=''):
+    if bool(val):
+        return val
+    return default

@@ -1,4 +1,5 @@
 {% extends 'default.html' %}
+{% load my_helper %}
 
 {% block content %}
     <div class="twelve columns panel">
@@ -67,7 +68,7 @@
                                     <p>Total uang</p>
                                 </div>
                                 <div class="five column harga">
-                                    Rp <span class="h">{{uang.harga_total__sum}}</span>
+                                    Rp <span class="h">{{uang.harga_total__sum|ifempty:''}}</span>
                                 </div>
                             </div>
                         </div>

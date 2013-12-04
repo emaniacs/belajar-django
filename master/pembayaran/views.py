@@ -1,18 +1,25 @@
 # Create your views here.
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
+from products.models import Items
 
-def home(request):
-    args = {
+def _get_args(request):
+    return {
+        'MENU': 'pembayaran',
         'user': request.user,
-        'MENU': 'pembayaran'
     }
+    
+def home(request):
+    args = _get_args(request)
+    
+    pembayaran = Items.objects.filter(tipe_item__nama='pembayaran')
+    args.update({'pembayaran':pembayaran})
+    
     return render_to_response('pembayaran/home.html', args)
     
 def bayar(request, tipe):
-    args = {}
+    args = _get_args(request)
     user = request.user
-    args.update({'user':user})
     
     if user.is_authenticated():
         try:
