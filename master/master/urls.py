@@ -23,6 +23,7 @@ urlpatterns = patterns('',
     url(r'^produk/checkout/$', 'products.views.checkout'),
     url(r'^produk/checkouts/$', 'products.views._tmp'),
     
+    url(r'^produk/by/pembayaran/$', 'pembayaran.views.home'),
     url(r'^produk/by/(?P<item_type>\w+)/$', 'products.views.by_type'),
     
     url(r'^produk/by/(?P<item_type>\w+)/(?P<item_id>\d+)/(?P<item_name>.*)/$', 'products.views.by_type_detail'),
