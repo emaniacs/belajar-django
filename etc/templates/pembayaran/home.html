@@ -1,0 +1,30 @@
+{% extends 'default.html' %}
+
+{% block content %}
+    <div class="twelve columns panel">
+        <div class="row">
+            <div class="twelve columns">
+                <h3>Pembayaran</h3> 
+            </div>
+            <hr/>
+        </div>
+        <div class="row">
+            {% for pemb in pembayaran %}
+            <div class="four columns">
+                <ul class="pricing-table">
+                    <li class="title">{{pemb.nama}}</li>
+                    <li class="description">
+                        <img src="{{pemb.img}}" class="img">
+                    </li>
+                    <li class="cta-button">
+                        <a class="button five" href="/pembayaran/{{pemb.nama}}">Bayar</a>
+                    </li>
+                </ul>
+            </div>
+            {% endfor %}
+            {% for x in forloop.counter|make_list %}
+                <div class="four columns"></div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
