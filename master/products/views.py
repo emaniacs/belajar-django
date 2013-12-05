@@ -18,7 +18,7 @@ def home(request):
     args = _get_args(request, 'produk')
     
     view = 'products/home.html'
-    tipe = ItemType.objects.all()
+    tipe = ItemType.objects.exclude(nama='pembayaran')
     args.update({'all_type': tipe})
     args.update({'login_error': request.session.get('login_error')})
     
