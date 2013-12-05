@@ -44,7 +44,8 @@ urlpatterns = patterns('',
 
     # PEMBAYARAN
     url(r'^pembayaran/$', 'pembayaran.views.home'),
-    url(r'^pembayaran/(?P<tipe>\w+)/$', 'pembayaran.views.bayar'),
+    url(r'^pembayaran/(?P<tipe>[a-zA-Z-_]+)/$', 'pembayaran.views.bayar'),
+    url(r'^pembayaran/(?P<tipe>[a-zA-Z-_]+)/save/$', 'pembayaran.views.bayar_save'),
     
     # Ajax
     url(r'^ajax/pelanggan/$', 'ajax.views.pelanggan'),
