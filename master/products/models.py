@@ -37,6 +37,7 @@ class Pelanggan(models.Model):
     nama = models.CharField(max_length=64)
     alamat = models.TextField(default='')
     no_hape = models.CharField(max_length=16, default='')
+    no_rek = models.CharField(max_length=128, default='')
     
     def __unicode__(self):
         return self.nama
