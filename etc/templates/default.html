@@ -295,6 +295,7 @@
                         ajaxAh(url, data)
                             .done(function(response) {
                                 if(response.status) {
+                                    $('#stock-'+form.find('input[name=id]').val()).html(response.stock);
                                     self.timer(false);
                                     Modal.title('Struk pembelian.');
                                     Modal.footer('Kode: ' + response.code);

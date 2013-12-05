@@ -52,21 +52,31 @@ def beli(request):
                     except:
                         pelanggan = Pelanggan(nama=nama_pelanggan)
                         pelanggan.save()
-                    
-                    penjualan = Penjualan(item=item, user=user, waktu_beli=timezone.now())
-                    penjualan.harga = int(harga)
-                    penjualan.jumlah = int(jumlah)
-                    penjualan.harga_total = int(harga) * int(jumlah)
-                    penjualan.kode = random_string(8)
-                    penjualan.pelanggan = pelanggan
-                    penjualan.pembayaran = pembayaran
-                    penjualan.dll = dll
-                    penjualan.save()
-                    data.update({
-                        'code'  : penjualan.kode,
-                        'status': True,
-                        'message': 'Ok'
-                    })
+                        
+                    jumlah = int(jumlah)
+                    if jumlah <= item.stok :
+                        penjualan = Penjualan(item=item, user=user, waktu_beli=timezone.now())
+                        penjualan.harga = int(harga)
+                        penjualan.jumlah = jumlah
+                        penjualan.harga_total = int(harga) * int(jumlah)
+                        penjualan.kode = random_string(8)
+                        penjualan.pelanggan = pelanggan
+                        penjualan.pembayaran = pembayaran
+                        penjualan.dll = dll
+                        penjualan.save()
+                        item.stok -= jumlah
+                        item.save()
+                        data.update({
+                            'code'  : penjualan.kode,
+                            'status': True,
+                            'stock' : item.stok,
+                            'message': 'Ok'
+                        })
+                    else:
+                        data.update({
+                            'status': False,
+                            'message': 'Out of stock'
+                        })
                 except Items.DoesNotExist:
                     data.update({
                         'status': False,
