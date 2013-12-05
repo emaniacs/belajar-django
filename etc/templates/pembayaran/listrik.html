@@ -1,0 +1,119 @@
+{% extends 'default.html' %}
+
+{% block content %}
+    <div class="twelve columns panel">
+        <div class="row">
+            <div class="twelve columns">
+                <h3>Pembayaran Listrik</h3> 
+            </div>
+            <hr/>
+        </div>
+        <div class="row">
+            <div class="twelve columns">
+                <form action="/pembayaran/listrik/save/" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="four columns">Pelanggan</div>
+                        <div class="eight columns">
+                            <input type="text" name="pelanggan" autocomplete="disabled">
+                            <div class="row hide" id="napel">
+                                <div class="twelve columns">
+                                    <ul></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="four columns">No Rekening</div>
+                        <div class="eight columns">
+                            <input type="text" name="dll">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="four columns">Jumlah bayar</div>
+                        <div class="eight columns">
+                            <input type="text" name="harga">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="four columns">Pembayaran</div>
+                        <div class="eight columns">
+                            <select name="pembayaran">
+                                <option value="lunas" selected>Lunas</option>
+                                <option value="hutang">Hutang</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <div class="row">
+                        <div class="six columns"></div>
+                        <div class="six columns">
+                            <button type="submit" class="large button twelve">Bayar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+    function addRekening(obj) {
+        LOG('add',$(obj).data('rek'));
+        $('input[name=dll]').val($(obj).data('rek')).focus();
+        $('#napel').hide();
+    }
+    
+    $(function() {
+        Item.beliCallback = function(data) {
+            var napel = $('#napel')
+                ,napelUL = napel.find('ul')
+                
+            napel.show();
+            napelUL.empty();
+            $.each (data, function(i, obj) {
+                LOG(obj);
+                var li = $('<li onclick="addRekening(this)">');
+                li.data('rek', obj.no_rek);
+                li.html(obj.nama)
+                napelUL.append(li);
+            })
+        }
+        
+        $('input[name=pelanggan]').on('keyup', function() {
+            Item.getPelanggan(this);
+        })
+    })
+</script>
+{% endblock %}
+
+{% block style %}
+    <style>
+        #napel {
+            position: absolute;
+            background: #eee;
+            z-index: 9;
+            top: 31px;
+            left: 12px;
+            width: 98%;
+            border: 1px solid #aaa;
+        }
+        #napel .columns {
+            margin: 2px 5px 2px 0;
+        }
+        #napel ul {
+            margin-bottom:1px;
+        }
+        #napel li {
+            list-style: none;
+            cursor:pointer;
+            padding-left:3px;
+        }
+        #napel li:hover {
+            background: #ddd;
+        }
+    </style>
+{% endblock %}
