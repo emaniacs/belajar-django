@@ -39,8 +39,6 @@
             .show-on-print input,textarea {
                 border: none;
             }
-        </style>
-        <style>
             .harga{
                 text-align: right;
             }
@@ -211,7 +209,11 @@
                         return $.ajax({url: url, data: data});
                     }
                 ;
-                    
+                
+                self.beliCallback = function(data) {
+                    LOG('beli callback');
+                };
+                
                 self.showBeli = function(e) {
                     var data = $(this).parent().data(),
                         html = formBeli.tinyTpl(data),
@@ -327,23 +329,14 @@
                     var val = $(obj).val();
                     
                     if (val.length > 3) {
-                        var url = '/ajax/pelanggan/',
-                            data = {nama:val},
-                            ul = $(obj).next()
+                        var url = '/ajax/pelanggan/'
+                            ,data = {nama:val}
                         ;
-                        ul.empty();
                         ajaxAh(url, data)
                             .done(function(response) {
                                 LOG(response);
                                 if (response.status) {
-                                    $.each(response.data, function (i, val) {
-                                        var li = $('<li data-nama="'+val.nama+'">');
-                                        li.append('<a href="javascript:void(0);">'+ val.nama + '</a></li>');
-                                        li.on('click', function() {
-                                            $(obj).val($(this).data('nama'));
-                                        });
-                                        li.appendTo(ul);
-                                    })
+                                    self.beliCallback(response.data);
                                 }
                             })
                     }
