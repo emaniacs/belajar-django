@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render_to_response
 from products.models import Items, Menu
 from django.core.context_processors import csrf
+from django.contrib.auth.decorators import login_required
 
 def _get_args(request):
     return {
@@ -28,7 +29,8 @@ def home(request):
     args.update({'pembayaran':pembayaran})
     
     return render_to_response('pembayaran/home.html', args)
-    
+
+@login_required(login_url='/login')    
 def bayar(request, tipe):
     _is_active()
     
@@ -36,14 +38,11 @@ def bayar(request, tipe):
     args.update(csrf(request))
     user = request.user
     
-    if user.is_authenticated():
-        try:
-            ret = render_to_response('pembayaran/%s.html' % tipe.lower(), args)
-        except:
-            args.update({'tipe':tipe})
-            ret = render_to_response('pembayaran/unknown_type.html', args)
-    else:
-        ret = HttpResponseRedirect('/login')
+    try:
+        ret = render_to_response('pembayaran/%s.html' % tipe.lower(), args)
+    except:
+        args.update({'tipe':tipe})
+        ret = render_to_response('pembayaran/unknown_type.html', args)
     
     return ret
 
