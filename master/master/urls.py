@@ -20,8 +20,8 @@ urlpatterns = patterns('',
     
     url(r'^produk/beli/$', 'products.views.beli'),
     url(r'^produk/add/$', 'products.views.add'),
-    url(r'^produk/checkout/$', 'products.views.checkout'),
-    url(r'^produk/checkouts/$', 'products.views._tmp'),
+    url(r'^checkout/$', 'products.views.checkout'),
+    url(r'^checkouts/$', 'products.views._tmp'),
     
     url(r'^produk/by/pembayaran/$', 'pembayaran.views.home'),
     url(r'^produk/by/(?P<item_type>\w+)/$', 'products.views.by_type'),
